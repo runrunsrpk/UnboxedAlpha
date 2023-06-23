@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 namespace NumGates
 {
@@ -28,14 +29,60 @@ namespace NumGates
         public Transform ContentBottomFrame => contentBottomFrame;
 
         [Header("UI Components")]
-        [SerializeField] private GameObject uiScore;
-        [SerializeField] private GameObject uiUnboxedSymbols;
-        [SerializeField] private GameObject uiUnboxedGauge;
-        [SerializeField] private GameObject uiDiamond;
-        [SerializeField] private GameObject uiCrypto;
+        [SerializeField] private Transform uiScore;
+        [SerializeField] private Transform uiUnboxedSymbols;
+        [SerializeField] private Transform uiUnboxedGauge;
+        [SerializeField] private Transform uiDiamond;
+        [SerializeField] private Transform uiCrypto;
+        [SerializeField] private Transform uiHealth;
+
+        private TextMeshProUGUI scoreText;
+        private TextMeshProUGUI diamondText;
+        private TextMeshProUGUI cryptoText;
 
         [Header("UI Button")]
         [SerializeField] private Button pauseButton;
+
+        private GameManager gameManager;
+        private GameplayManager gameplayManager;
+
+        private void Start()
+        {
+            Init();
+            InitUI();
+        }
+
+        private void Init()
+        {
+            gameManager = GameManager.Instance;
+            gameplayManager = gameManager.GameplayManager;
+
+            gameplayManager.OnSoulCollected += SoulCollected;
+        }
+
+        private void InitUI()
+        {
+#if UNITY_STANDALONE
+
+            diamondText = uiDiamond.GetComponentInChildren<TextMeshProUGUI>();
+            diamondText.text = "0";
+            uiDiamond.gameObject.SetActive(false);
+#endif
+            uiUnboxedGauge.gameObject.SetActive(false);
+
+            cryptoText = uiCrypto.GetComponentInChildren<TextMeshProUGUI>();
+            cryptoText.text = "0";
+
+            scoreText = uiScore.transform.GetChild(1).GetComponent<TextMeshProUGUI>();
+            scoreText.text = "0";
+        }
+
+        private void SoulCollected(int value)
+        {
+            int currentValue = int.Parse(scoreText.text);
+
+            scoreText.text = (currentValue + value).ToString();
+        }
     }
 }
 

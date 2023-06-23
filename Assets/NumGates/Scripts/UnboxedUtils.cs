@@ -10,7 +10,9 @@ namespace NumGates
         {
             Vector2 size = Vector2.zero;
 
-            if(target.TryGetComponent(out SpriteRenderer renderer))
+            SpriteRenderer renderer = target.GetComponentInChildren<SpriteRenderer>();
+
+            if(renderer != null)
             {
                 Camera camera = Camera.main;
 
@@ -26,7 +28,7 @@ namespace NumGates
             return size;
         }
 
-        public static Vector2 CalculateUISize(Transform target)
+        public static Vector2 CalculateUISize(Transform target, float offset)
         {
             Vector2 size = Vector2.zero;
 
@@ -36,8 +38,8 @@ namespace NumGates
                 RectTransform rootRectTransform = root.GetComponent<RectTransform>();
                 Vector2 scale = new Vector2(rootRectTransform.localScale.x, rootRectTransform.localScale.y);
 
-                float width = rectTransform.rect.width * scale.x;
-                float height = rectTransform.rect.height * scale.y;
+                float width = ( rectTransform.rect.width + offset ) * scale.x;
+                float height = ( rectTransform.rect.height + offset ) * scale.y;
                 size = new Vector2(width, height);
             }
 

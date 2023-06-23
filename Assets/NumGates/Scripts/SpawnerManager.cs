@@ -6,9 +6,12 @@ namespace NumGates
 {
     public class SpawnerManager : MonoBehaviour
     {
+        [Header("Customize")]
         [SerializeField] private bool isSpawn;
+        [SerializeField] private float frameOffset;
         [SerializeField] private GameObject[] spawnPrefs;
 
+        [Header("UIs")]
         [SerializeField] private UIGameplay uiGameplay;
 
         private void Start()
@@ -37,13 +40,13 @@ namespace NumGates
             Debug.Log($"ScreenWidth: {screenWidth} | ScreenHeight: {screenHeight}");
 
             // Calculate frame size
-            Vector2 leftFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.LeftFrame);
-            Vector2 rightFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.RightFrame);
-            Vector2 topFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.TopFrame);
-            Vector2 bottomFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.BottomFrame);
+            Vector2 leftFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.LeftFrame, frameOffset);
+            Vector2 rightFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.RightFrame, frameOffset);
+            Vector2 topFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.TopFrame, frameOffset);
+            Vector2 bottomFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.BottomFrame, frameOffset);
 
-            Vector2 contentTopFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.ContentTopFrame);
-            Vector2 contentBottomFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.ContentBottomFrame);
+            Vector2 contentTopFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.ContentTopFrame, frameOffset);
+            Vector2 contentBottomFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.ContentBottomFrame, frameOffset);
 
             // Create frame offset
             float leftOffset = leftFrameSize.x;
