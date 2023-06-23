@@ -9,6 +9,8 @@ namespace NumGates
         [SerializeField] private bool isSpawn;
         [SerializeField] private GameObject[] spawnPrefs;
 
+        [SerializeField] private UIGameplay uiGameplay;
+
         private void Start()
         {
             InvokeRepeating(nameof(StartSpawning), 0f, 1f);
@@ -32,23 +34,35 @@ namespace NumGates
             float screenWidth = Screen.width;
             float screenHeight = Screen.height;
 
-            float leftOffset = 100;
-            float rightOffset = 100;
-            float topOffset = 200;
-            float bottomOffset = 100;
+            Debug.Log($"ScreenWidth: {screenWidth} | ScreenHeight: {screenHeight}");
 
-            // Get spawnedItem width and height
-            SpriteRenderer itemSprite = spawnedItem.GetComponent<SpriteRenderer>();
-            Vector3 itemBoundsMin = itemSprite.bounds.min;
-            Vector3 itemBoundsMax = itemSprite.bounds.max;
+            // Calculate frame size
+            Vector2 leftFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.LeftFrame);
+            Vector2 rightFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.RightFrame);
+            Vector2 topFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.TopFrame);
+            Vector2 bottomFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.BottomFrame);
 
-            Vector3 screenMin = camera.WorldToScreenPoint(itemBoundsMin);
-            Vector3 screenMax = camera.WorldToScreenPoint(itemBoundsMax);
+            Vector2 contentTopFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.ContentTopFrame);
+            Vector2 contentBottomFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.ContentBottomFrame);
 
-            float itemWidthOffset = (screenMax.x - screenMin.x) / 2f;
-            float itemHeightOffset = (screenMax.y - screenMin.y) / 2f;
+            // Create frame offset
+            float leftOffset = leftFrameSize.x;
+            float rightOffset = rightFrameSize.x;
+            float topOffset = topFrameSize.y + contentTopFrameSize.y;
+            float bottomOffset = bottomFrameSize.y + contentBottomFrameSize.y;
+
+            Debug.Log($"Offset L: {leftOffset} | Offset R: {rightOffset} | Offset T: {topOffset} | Offset B: {bottomOffset}");
+
+            // Calculate spawned item size
+            Vector2 spawnedSize = UnboxedUtils.CalculateSpriteSize(spawnedItem);
+
+            // Create spawned item offset
+            float itemWidthOffset = spawnedSize.x / 2f;
+            float itemHeightOffset = spawnedSize.y / 2f;
 
             Debug.Log($"SizeX: {itemWidthOffset} | SizeY: {itemHeightOffset}");
+
+            //TODO: Create offset space
 
             int randomId = Random.Range(0, 4);
             Vector3[] randomSet = new Vector3[4];
@@ -57,10 +71,10 @@ namespace NumGates
             randomSet[2] = new Vector3(leftOffset + itemWidthOffset, screenHeight - bottomOffset - itemHeightOffset, 0f);
             randomSet[3] = new Vector3(screenWidth - rightOffset - itemWidthOffset, screenHeight - bottomOffset - itemHeightOffset, 0f);
 
-            float randomWidth = Random.Range(leftOffset + itemWidthOffset, screenWidth - rightOffset - itemWidthOffset);
-            float randomHeight = Random.Range(topOffset + itemHeightOffset, screenHeight - bottomOffset - itemHeightOffset);
+            //float randomWidth = Random.Range(leftOffset + itemWidthOffset, screenWidth - rightOffset - itemWidthOffset);
+            //float randomHeight = Random.Range(topOffset + itemHeightOffset, screenHeight - bottomOffset - itemHeightOffset);
 
-            Debug.Log($"ID: {randomId} | RandomWidth: {randomWidth} | RandomHeight: {randomHeight}");
+            //Debug.Log($"ID: {randomId} | RandomWidth: {randomWidth} | RandomHeight: {randomHeight}");
 
             //Vector3 randomPosition = camera.ScreenToWorldPoint(new Vector3(randomWidth, randomHeight, 0f));
 
