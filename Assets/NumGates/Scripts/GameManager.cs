@@ -11,7 +11,7 @@ namespace NumGates
         public GameplayManager GameplayManager { get; private set; }
         public SpawnerManager SpawnerManager { get; private set; }
 
-        private void Start()
+        private void Awake()
         {
             if (Instance != null && Instance != this)
             {

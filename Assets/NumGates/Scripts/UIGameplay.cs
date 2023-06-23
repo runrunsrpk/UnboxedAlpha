@@ -48,11 +48,11 @@ namespace NumGates
 
         private void Start()
         {
-            Init();
+            InitManager();
             InitUI();
         }
 
-        private void Init()
+        private void InitManager()
         {
             gameManager = GameManager.Instance;
             gameplayManager = gameManager.GameplayManager;
