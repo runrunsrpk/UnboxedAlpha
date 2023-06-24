@@ -30,9 +30,18 @@ namespace NumGates
             ""id"": ""06b9272d-6860-426e-8c65-38d75b0c4c90"",
             ""actions"": [
                 {
-                    ""name"": ""Click"",
+                    ""name"": ""Point"",
                     ""type"": ""PassThrough"",
                     ""id"": ""26b752b7-2611-4713-8262-3fa1808434a8"",
+                    ""expectedControlType"": ""Vector2"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Click"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""6abfc167-b29b-4b10-838f-5d1fa8ca623f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Press"",
@@ -43,6 +52,28 @@ namespace NumGates
                 {
                     ""name"": """",
                     ""id"": ""47d860bd-fed1-440f-882d-a4a8e3fb6b85"",
+                    ""path"": ""<Mouse>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Mouse and Keyboard"",
+                    ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce745013-91de-4c7e-8838-5558f0a9f964"",
+                    ""path"": ""<Touchscreen>/position"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Touchscreen"",
+                    ""action"": ""Point"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""65759d4c-217c-445e-bf9c-b9ae756f8a66"",
                     ""path"": ""<Mouse>/leftButton"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -53,7 +84,7 @@ namespace NumGates
                 },
                 {
                     ""name"": """",
-                    ""id"": ""ce745013-91de-4c7e-8838-5558f0a9f964"",
+                    ""id"": ""242add33-756e-41f2-8932-481685098110"",
                     ""path"": ""<Touchscreen>/Press"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -613,6 +644,7 @@ namespace NumGates
 }");
             // Player
             m_Player = asset.FindActionMap("Player", throwIfNotFound: true);
+            m_Player_Point = m_Player.FindAction("Point", throwIfNotFound: true);
             m_Player_Click = m_Player.FindAction("Click", throwIfNotFound: true);
             // UI
             m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
@@ -687,11 +719,13 @@ namespace NumGates
         // Player
         private readonly InputActionMap m_Player;
         private List<IPlayerActions> m_PlayerActionsCallbackInterfaces = new List<IPlayerActions>();
+        private readonly InputAction m_Player_Point;
         private readonly InputAction m_Player_Click;
         public struct PlayerActions
         {
             private @InputMaster m_Wrapper;
             public PlayerActions(@InputMaster wrapper) { m_Wrapper = wrapper; }
+            public InputAction @Point => m_Wrapper.m_Player_Point;
             public InputAction @Click => m_Wrapper.m_Player_Click;
             public InputActionMap Get() { return m_Wrapper.m_Player; }
             public void Enable() { Get().Enable(); }
@@ -702,6 +736,9 @@ namespace NumGates
             {
                 if (instance == null || m_Wrapper.m_PlayerActionsCallbackInterfaces.Contains(instance)) return;
                 m_Wrapper.m_PlayerActionsCallbackInterfaces.Add(instance);
+                @Point.started += instance.OnPoint;
+                @Point.performed += instance.OnPoint;
+                @Point.canceled += instance.OnPoint;
                 @Click.started += instance.OnClick;
                 @Click.performed += instance.OnClick;
                 @Click.canceled += instance.OnClick;
@@ -709,6 +746,9 @@ namespace NumGates
 
             private void UnregisterCallbacks(IPlayerActions instance)
             {
+                @Point.started -= instance.OnPoint;
+                @Point.performed -= instance.OnPoint;
+                @Point.canceled -= instance.OnPoint;
                 @Click.started -= instance.OnClick;
                 @Click.performed -= instance.OnClick;
                 @Click.canceled -= instance.OnClick;
@@ -867,6 +907,7 @@ namespace NumGates
         }
         public interface IPlayerActions
         {
+            void OnPoint(InputAction.CallbackContext context);
             void OnClick(InputAction.CallbackContext context);
         }
         public interface IUIActions

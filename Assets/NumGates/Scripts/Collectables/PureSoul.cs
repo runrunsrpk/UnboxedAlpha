@@ -14,10 +14,10 @@ namespace NumGates
 
         protected override void Destroy()
         {
-
+            base.Destroy();
         }
 
-        protected override void OnCollected()
+        protected override void Collected()
         {
             gameplayManager.OnSoulCollected?.Invoke(value);
 

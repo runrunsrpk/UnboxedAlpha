@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,7 +7,9 @@ namespace NumGates
 {
     public class Collectable : MonoBehaviour
     {
-        [SerializeField] private Sprite sprite;
+        public Action OnCollected;
+
+        [SerializeField] private SpriteRenderer spriteRenderer;
         [SerializeField] private BoxCollider boxCollider;
 
         [SerializeField] protected int value;
@@ -28,18 +31,19 @@ namespace NumGates
         {
             gameManager = GameManager.Instance;
             gameplayManager = gameManager.GameplayManager;
+
+            OnCollected += Collected;
         }
 
         protected virtual void Destroy()
         {
-
+            OnCollected -= Collected;
         }
 
-        protected virtual void OnCollected()
+        protected virtual void Collected()
         {
 
         }
-
     }
 }
 

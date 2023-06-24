@@ -37,7 +37,7 @@ namespace NumGates
             float screenWidth = Screen.width;
             float screenHeight = Screen.height;
 
-            Debug.Log($"ScreenWidth: {screenWidth} | ScreenHeight: {screenHeight}");
+            //Debug.Log($"ScreenWidth: {screenWidth} | ScreenHeight: {screenHeight}");
 
             // Calculate frame size
             Vector2 leftFrameSize = UnboxedUtils.CalculateUISize(uiGameplay.LeftFrame, frameOffset);
@@ -54,7 +54,7 @@ namespace NumGates
             float topOffset = topFrameSize.y + contentTopFrameSize.y;
             float bottomOffset = bottomFrameSize.y + contentBottomFrameSize.y;
 
-            Debug.Log($"Offset L: {leftOffset} | Offset R: {rightOffset} | Offset T: {topOffset} | Offset B: {bottomOffset}");
+            //Debug.Log($"Offset L: {leftOffset} | Offset R: {rightOffset} | Offset T: {topOffset} | Offset B: {bottomOffset}");
 
             // Calculate spawned item size
             Vector2 spawnedSize = UnboxedUtils.CalculateSpriteSize(spawnedItem);
@@ -63,7 +63,7 @@ namespace NumGates
             float itemWidthOffset = spawnedSize.x / 2f;
             float itemHeightOffset = spawnedSize.y / 2f;
 
-            Debug.Log($"SizeX: {itemWidthOffset} | SizeY: {itemHeightOffset}");
+            //Debug.Log($"SizeX: {itemWidthOffset} | SizeY: {itemHeightOffset}");
 
             //TODO: Create offset space
 

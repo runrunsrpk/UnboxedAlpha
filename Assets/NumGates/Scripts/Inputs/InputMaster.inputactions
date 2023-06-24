@@ -6,9 +6,18 @@
             "id": "06b9272d-6860-426e-8c65-38d75b0c4c90",
             "actions": [
                 {
-                    "name": "Click",
+                    "name": "Point",
                     "type": "PassThrough",
                     "id": "26b752b7-2611-4713-8262-3fa1808434a8",
+                    "expectedControlType": "Vector2",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Click",
+                    "type": "PassThrough",
+                    "id": "6abfc167-b29b-4b10-838f-5d1fa8ca623f",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "Press",
@@ -19,6 +28,28 @@
                 {
                     "name": "",
                     "id": "47d860bd-fed1-440f-882d-a4a8e3fb6b85",
+                    "path": "<Mouse>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Mouse and Keyboard",
+                    "action": "Point",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ce745013-91de-4c7e-8838-5558f0a9f964",
+                    "path": "<Touchscreen>/position",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Touchscreen",
+                    "action": "Point",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "65759d4c-217c-445e-bf9c-b9ae756f8a66",
                     "path": "<Mouse>/leftButton",
                     "interactions": "",
                     "processors": "",
@@ -29,7 +60,7 @@
                 },
                 {
                     "name": "",
-                    "id": "ce745013-91de-4c7e-8838-5558f0a9f964",
+                    "id": "242add33-756e-41f2-8932-481685098110",
                     "path": "<Touchscreen>/Press",
                     "interactions": "",
                     "processors": "",
