@@ -19,7 +19,10 @@ namespace NumGates
 
         protected override void Collected()
         {
-            gameplayManager.OnSymbolCollected?.Invoke();
+            if(gameplayManager.IsBonus == false)
+            {
+                gameplayManager.OnSymbolCollected?.Invoke();
+            }
 
             Destroy(gameObject);
         }
