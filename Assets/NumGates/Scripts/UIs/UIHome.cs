@@ -19,14 +19,21 @@ namespace NumGates
             gameObject.SetActive(true);
 
             InitUI();
-
-            startButton.onClick.AddListener(OnClickStart);
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
 
+        }
+
+        private void OnEnable()
+        {
+            startButton.onClick.AddListener(OnClickStart);
+        }
+
+        private void OnDisable()
+        {
             startButton.onClick.RemoveListener(OnClickStart);
         }
 
@@ -39,7 +46,6 @@ namespace NumGates
         private void OnClickStart()
         {
             gameplayManager.OnStartGame?.Invoke();
-            //gameplayManager.OnStartCountdownTimer?.Invoke();
         }
 
         private void OnClickStore()

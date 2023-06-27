@@ -38,6 +38,7 @@ namespace NumGates
         private void EnableAction()
         {
             gameplayManager.OnStartGame += StartGame;
+            gameplayManager.OnRestartGame += RestartGame;
             gameplayManager.OnEndGame += EndGame;
             gameplayManager.OnExitGame += ExitGame;
 
@@ -66,6 +67,7 @@ namespace NumGates
         private void DisableAction()
         {
             gameplayManager.OnStartGame -= StartGame;
+            gameplayManager.OnRestartGame -= RestartGame;
             gameplayManager.OnEndGame -= EndGame;
             gameplayManager.OnExitGame -= ExitGame;
 
@@ -96,12 +98,24 @@ namespace NumGates
         private void StartGame()
         {
             uiHome.Hide();
-            uiCountdown.Show();
+        }
+
+        private void RestartGame()
+        {
+            uiPausePopup.Hide();
+            uiEndgamePopup.Hide();
         }
 
         private void EndGame()
         {
             uiEndgamePopup.Show();
+
+            //TODO: Save data to somewhere
+#if UNITY_STANDALONE
+            uiEndgamePopup.UpdatePopup(uiGameplay.Score, uiGameplay.Crypto);
+#else
+            uiEndgamePopup.UpdatePopup(uiGameplay.Score, uiGameplay.Crypto, uiGameplay.Diamond);
+#endif
         }
 
         private void ExitGame()
@@ -144,7 +158,9 @@ namespace NumGates
         // Countdown
         private void StartCountdownTimer()
         {
-            if(gameplayManager.IsStart == false)
+            uiCountdown.Show();
+
+            if (gameplayManager.IsStart == false)
             {
                 uiGameplay.Show();
             }

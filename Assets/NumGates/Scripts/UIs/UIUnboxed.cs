@@ -23,6 +23,8 @@ namespace NumGates
 
             bonusSlider = unboxedGauge.GetComponent<Slider>();
 
+            symbolAmount = 0;
+
             DisableBonus();
         }
 

@@ -75,7 +75,7 @@ namespace NumGates
 
         private void InitVariable()
         {
-            if (parent == null) parent = new GameObject("SpawnerParent");
+            parent = new GameObject("SpawnerParent");
 
             spawningSpeed = baseSpawningSpeed * TIMER_MULTIPLIER;
             waveTimer = baseSpawningSpeed * TIMER_MULTIPLIER;
@@ -94,6 +94,7 @@ namespace NumGates
             OnUpdateWaveTimer += UpdateWaveTimer;
 
             gameplayManager.OnStartGame += StartGame;
+            gameplayManager.OnRestartGame += RestartGame;
             gameplayManager.OnExitGame += ExitGame;
 
             gameplayManager.OnStartBonusTimer += StartBonusTimer;
@@ -105,6 +106,7 @@ namespace NumGates
             OnUpdateWaveTimer -= UpdateWaveTimer;
 
             gameplayManager.OnStartGame -= StartGame;
+            gameplayManager.OnRestartGame -= RestartGame;
             gameplayManager.OnExitGame -= ExitGame;
 
             gameplayManager.OnStartBonusTimer -= StartBonusTimer;
@@ -180,6 +182,12 @@ namespace NumGates
             InitVariable();
         }
 
+        private void RestartGame()
+        {
+            Destroy(parent);
+            StartGame();
+        }
+
         private void ExitGame()
         {
             Destroy(parent);
@@ -214,7 +222,7 @@ namespace NumGates
         {
             int itemId = UnityEngine.Random.Range(0, spawnPrefs.Length);
             GameObject spawnedItem = Instantiate(spawnPrefs[itemId],parent.transform);
-            //GameObject spawnedItem = Instantiate(spawnPrefs[SpawnType.Clock]);
+            //GameObject spawnedItem = Instantiate(spawnPrefs[SpawnType.Symbol], parent.transform);
             RandomSpawnPosition(spawnedItem);
         }
 

@@ -8,6 +8,10 @@ namespace NumGates
 {
     public class UIGameplay : MonoBehaviour
     {
+        public int Score => uiScore.GetTextValue();
+        public int Crypto => uiCrypto.GetTextValue();
+        public int Diamond => uiDiamond.GetTextValue();
+
         [Header("UI Outer Frames")]
         [SerializeField] private Transform leftFrame;
         public Transform LeftFrame => leftFrame;
@@ -48,14 +52,20 @@ namespace NumGates
             gameObject.SetActive(true);
 
             InitUI();
-
-            pauseButton.onClick.AddListener(OnClickPause);
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
+        }
 
+        private void OnEnable()
+        {
+            pauseButton.onClick.AddListener(OnClickPause);
+        }
+
+        private void OnDisable()
+        {
             pauseButton.onClick.RemoveListener(OnClickPause);
         }
 
@@ -65,9 +75,9 @@ namespace NumGates
             gameplayManager = gameManager.GameplayManager;
 
 #if UNITY_STANDALONE
-
-            uiDiamond.InitUI();
             uiDiamond.Hide();
+#else
+            uiDiamond.InitUI();
 #endif
             uiUnboxed.InitUI();
             uiHealth.InitUI();

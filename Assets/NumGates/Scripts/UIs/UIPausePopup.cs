@@ -46,7 +46,7 @@ namespace NumGates
 
         private void OnClickRetry()
         {
-
+            gameplayManager.OnRestartGame?.Invoke();
         }
 
         private void OnClickExit()

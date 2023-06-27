@@ -8,6 +8,7 @@ namespace NumGates
     public class GameplayManager : MonoBehaviour
     {
         public Action OnStartGame;
+        public Action OnRestartGame;
         public Action OnEndGame;
         public Action OnExitGame;
 
@@ -107,6 +108,7 @@ namespace NumGates
         private void EnableAction()
         {
             OnStartGame += StartGame;
+            OnRestartGame += RestartGame;
             OnEndGame += EndGame;
             OnExitGame += ExitGame;
 
@@ -132,6 +134,7 @@ namespace NumGates
         private void DisableAction()
         {
             OnStartGame -= StartGame;
+            OnRestartGame -= RestartGame;
             OnEndGame -= EndGame;
             OnExitGame -= ExitGame;
 
@@ -164,8 +167,16 @@ namespace NumGates
             OnStartCountdownTimer?.Invoke();
         }
 
+        private void RestartGame()
+        {
+            EndGame();
+            StartGame();
+        }
+
         private void EndGame()
         {
+            isCountdown = false;
+            isPause = false;
             isStart = false;
             isBonus = false;
             isShield = false;

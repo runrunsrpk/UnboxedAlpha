@@ -13,6 +13,7 @@ namespace NumGates
 
         public void InitUI()
         {
+            //TODO: Set timer from player manager
             UpdateTimerText(60);
         }
 

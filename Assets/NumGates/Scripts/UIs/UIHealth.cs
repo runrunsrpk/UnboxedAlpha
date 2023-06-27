@@ -18,6 +18,7 @@ namespace NumGates
         {
             gameplayManager = GameManager.Instance.GameplayManager;
 
+            //TODO: Set health from player manager
             health = maxHealth;
 
             foreach(Transform child in healthGroup)

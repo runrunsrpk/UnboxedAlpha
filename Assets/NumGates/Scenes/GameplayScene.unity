@@ -728,6 +728,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a92d9ac59892f4e46868c8e60ace6bfc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiScore: {fileID: 715357628}
+  uiCrypto: {fileID: 1880249996}
+  uiDiamond: {fileID: 1949771922}
+  highscore: {fileID: 1690380636}
   retryButton: {fileID: 878534410}
   exitButton: {fileID: 1526653638}
 --- !u!1001 &143310919
@@ -3056,6 +3060,7 @@ GameObject:
   - component: {fileID: 715357625}
   - component: {fileID: 715357627}
   - component: {fileID: 715357626}
+  - component: {fileID: 715357628}
   m_Layer: 5
   m_Name: ScoreBG
   m_TagString: Untagged
@@ -3122,6 +3127,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 715357624}
   m_CullTransparentMesh: 1
+--- !u!114 &715357628
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 715357624}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d881d4b75616646b9a2e8ae702b6cdb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 332827229}
 --- !u!1 &716075843
 GameObject:
   m_ObjectHideFlags: 0
@@ -9325,6 +9343,7 @@ GameObject:
   - component: {fileID: 1880249993}
   - component: {fileID: 1880249995}
   - component: {fileID: 1880249994}
+  - component: {fileID: 1880249996}
   m_Layer: 5
   m_Name: Crypto
   m_TagString: Untagged
@@ -9350,7 +9369,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 1}
   m_AnchorMax: {x: 0, y: 1}
-  m_AnchoredPosition: {x: 390, y: -50}
+  m_AnchoredPosition: {x: 252.5, y: -50}
   m_SizeDelta: {x: 250, y: 75}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1880249994
@@ -9391,6 +9410,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1880249992}
   m_CullTransparentMesh: 1
+--- !u!114 &1880249996
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1880249992}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d881d4b75616646b9a2e8ae702b6cdb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 718052385}
 --- !u!1 &1891494461
 GameObject:
   m_ObjectHideFlags: 0
@@ -9867,13 +9899,14 @@ GameObject:
   - component: {fileID: 1949771919}
   - component: {fileID: 1949771921}
   - component: {fileID: 1949771920}
+  - component: {fileID: 1949771922}
   m_Layer: 5
   m_Name: Diamond
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1949771919
 RectTransform:
   m_ObjectHideFlags: 0
@@ -9933,6 +9966,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1949771918}
   m_CullTransparentMesh: 1
+--- !u!114 &1949771922
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1949771918}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d881d4b75616646b9a2e8ae702b6cdb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 716075845}
 --- !u!1 &1953987397
 GameObject:
   m_ObjectHideFlags: 0
