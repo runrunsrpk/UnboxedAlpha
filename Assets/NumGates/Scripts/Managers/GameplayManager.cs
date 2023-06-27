@@ -284,6 +284,7 @@ namespace NumGates
             else
             {
                 OnEndGameTimer?.Invoke();
+                OnEndGame?.Invoke();
             }
         }
 
@@ -291,7 +292,6 @@ namespace NumGates
         {
             OnUpdateGameTimer?.Invoke(0f, maxGameTimer);
             tickGameTimer = 0f;
-            isStart = false;
         }
 
         // Bonus

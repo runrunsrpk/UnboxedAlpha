@@ -32,6 +32,8 @@ namespace NumGates
                 child.SetActive(true);
                 child.GetComponent<UIHealthIcon>().Init();
             }
+
+            DisableShield();
         }
 
         public void Damaged()
