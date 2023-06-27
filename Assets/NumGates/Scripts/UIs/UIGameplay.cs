@@ -43,27 +43,11 @@ namespace NumGates
         private GameplayManager gameplayManager;
 
         #region Initialize
-        //public void Initialize()
-        //{
-        //    InitManager();
-        //    InitUI();
-
-        //    EnableAction();
-        //}
-
-        //public void Terminate()
-        //{
-        //    DisableAction();
-        //}
-
         public void Show()
         {
             gameObject.SetActive(true);
 
-            InitManager();
             InitUI();
-
-            EnableAction();
 
             pauseButton.onClick.AddListener(OnClickPause);
         }
@@ -72,19 +56,14 @@ namespace NumGates
         {
             gameObject.SetActive(false);
 
-            DisableAction();
-
             pauseButton.onClick.RemoveListener(OnClickPause);
-        }
-
-        private void InitManager()
-        {
-            gameManager = GameManager.Instance;
-            gameplayManager = gameManager.GameplayManager;
         }
 
         private void InitUI()
         {
+            gameManager = GameManager.Instance;
+            gameplayManager = gameManager.GameplayManager;
+
 #if UNITY_STANDALONE
 
             uiDiamond.InitUI();
@@ -96,97 +75,71 @@ namespace NumGates
             uiScore.InitUI();
             uiTimer.InitUI();
         }
-        
-        private void EnableAction()
-        {
-            gameplayManager.OnSoulCollected += SoulCollected;
-            gameplayManager.OnCryptoCollected += CryptoCollected;
-            gameplayManager.OnDiamondCollected += DiamondCollected;
-            gameplayManager.OnSymbolCollected += SymbolCollected;
-            gameplayManager.OnSoulMissed += SoulMissed;
-
-            gameplayManager.OnUpdateGameTimer += UpdateGameTimer;
-
-            gameplayManager.OnStartBonusTimer += StartBonusTimer;
-            gameplayManager.OnUpdateBonusTimer += UpdateBonusTimer;
-            gameplayManager.OnEndBonusTimer += EndBonusTimer;
-
-            gameplayManager.OnStartShieldTimer += StartShieldTimer;
-            gameplayManager.OnEndShieldTimer += EndShieldTimer;
-        }
-
-        private void DisableAction()
-        {
-
-        }
         #endregion
 
         #region Action Collect
-        private void SoulCollected(int value)
+        public void SoulCollected(int value)
         {
             uiScore.UpdateTextValue(value);
         }
 
-        private void CryptoCollected(int value)
+        public void CryptoCollected(int value)
         {
             uiCrypto.UpdateTextValue(value);
         }
 
-        private void DiamondCollected(int value)
+        public void DiamondCollected(int value)
         {
             uiDiamond.UpdateTextValue(value);
         }
 
-        private void SymbolCollected()
+        public void SymbolCollected()
         {
             uiUnboxed.AddSymbol();
         }
 
-        private void SoulMissed()
+        public void SoulMissed()
         {
-            if(gameplayManager.IsShield == false)
-            {
-                uiHealth.Damaged();
-            }
+            uiHealth.Damaged();
         }
         #endregion
 
         #region Action Timer
         // Timer
-        private void UpdateGameTimer(float timer, float maxTimer)
+        public void UpdateGameTimer(float timer, float maxTimer)
         {
             uiTimer.UpdateTimerText(timer);
             uiTimer.UpdateTimer(timer, maxTimer);
         }
 
-        private void EndGameTimer()
+        public void EndGameTimer()
         {
             //TODO: close bg
         }
 
         // Bonus
-        private void StartBonusTimer()
+        public void StartBonusTimer()
         {
             uiUnboxed.EnableBonus();
         }
 
-        private void UpdateBonusTimer(float timer, float maxTimer)
+        public void UpdateBonusTimer(float timer, float maxTimer)
         {
             uiUnboxed.UpdateBonus(timer, maxTimer);
         }
 
-        private void EndBonusTimer()
+        public void EndBonusTimer()
         {
             uiUnboxed.DisableBonus();
         }
 
         // Shield
-        private void StartShieldTimer()
+        public void StartShieldTimer()
         {
             uiHealth.EnableShield();
         }
 
-        private void EndShieldTimer()
+        public void EndShieldTimer()
         {
             uiHealth.DisableShield();
         }
@@ -200,4 +153,3 @@ namespace NumGates
         #endregion
     }
 }
-

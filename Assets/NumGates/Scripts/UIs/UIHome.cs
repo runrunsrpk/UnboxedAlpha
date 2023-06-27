@@ -14,11 +14,6 @@ namespace NumGates
 
         private GameplayManager gameplayManager;
 
-        private void InitUI()
-        {
-            gameplayManager = GameManager.Instance.GameplayManager;
-        }
-
         public void Show()
         {
             gameObject.SetActive(true);
@@ -35,10 +30,16 @@ namespace NumGates
             startButton.onClick.RemoveListener(OnClickStart);
         }
 
+        private void InitUI()
+        {
+            gameplayManager = GameManager.Instance.GameplayManager;
+        }
+
         #region Button
         private void OnClickStart()
         {
-            gameplayManager.OnStartCountdownTimer?.Invoke();
+            gameplayManager.OnStartGame?.Invoke();
+            //gameplayManager.OnStartCountdownTimer?.Invoke();
         }
 
         private void OnClickStore()

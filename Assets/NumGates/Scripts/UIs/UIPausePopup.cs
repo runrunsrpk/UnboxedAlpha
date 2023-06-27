@@ -20,6 +20,8 @@ namespace NumGates
             InitUI();
 
             resumeButton.onClick.AddListener(OnClickResume);
+            retryButton.onClick.AddListener(OnClickRetry);
+            exitButton.onClick.AddListener(OnClickExit);
         }
 
         public void Hide()
@@ -27,6 +29,8 @@ namespace NumGates
             gameObject.SetActive(false);
 
             resumeButton.onClick.RemoveListener(OnClickResume);
+            retryButton.onClick.RemoveListener(OnClickRetry);
+            exitButton.onClick.RemoveListener(OnClickExit);
         }
 
         private void InitUI()
@@ -47,7 +51,7 @@ namespace NumGates
 
         private void OnClickExit()
         {
-
+            gameplayManager.OnExitGame?.Invoke();
         }
         #endregion
     }

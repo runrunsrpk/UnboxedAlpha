@@ -10,35 +10,29 @@ namespace NumGates
     {
         [SerializeField] private TextMeshProUGUI countdownText;
 
-        private GameplayManager gameplayManager;
-
-        private void InitUI()
-        {
-            gameplayManager = GameManager.Instance.GameplayManager;
-            
-            UpdateText(3);
-        }
+        //private GameplayManager gameplayManager;
 
         public void Show()
         {
             gameObject.SetActive(true);
 
-            InitUI();
-
-            gameplayManager.OnUpdateCountdownTimer += UpdateText;
+            //InitUI();
         }
 
         public void Hide()
         {
             gameObject.SetActive(false);
-
-            gameplayManager.OnUpdateCountdownTimer -= UpdateText;
         }
 
-        private void UpdateText(float timer)
+        public void UpdateText(float timer)
         {
             countdownText.text = timer.ToString();
         }
+
+        //private void InitUI()
+        //{
+        //    gameplayManager = GameManager.Instance.GameplayManager;
+        //}
     }
 }
 

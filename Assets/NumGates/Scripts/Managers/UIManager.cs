@@ -20,18 +20,14 @@ namespace NumGates
         public void Initialize()
         {
             InitManager();
-
             EnableAction();
 
             uiHome.Show();
-            //uiGameplay.Initialize();
         }
 
         public void Terminate()
         {
             DisableAction();
-
-            //uiGameplay.Terminate();
         }
 
         private void InitManager()
@@ -41,24 +37,113 @@ namespace NumGates
 
         private void EnableAction()
         {
+            gameplayManager.OnStartGame += StartGame;
+            gameplayManager.OnEndGame += EndGame;
+            gameplayManager.OnExitGame += ExitGame;
+
+            gameplayManager.OnSoulCollected += SoulCollected;
+            gameplayManager.OnCryptoCollected += CryptoCollected;
+            gameplayManager.OnDiamondCollected += DiamondCollected;
+            gameplayManager.OnSymbolCollected += SymbolCollected;
+            gameplayManager.OnSoulMissed += SoulMissed;
+
             gameplayManager.OnStartCountdownTimer += StartCountdownTimer;
+            gameplayManager.OnUpdateCountdownTimer += UpdateCountdownTimer;
             gameplayManager.OnEndCountdownTimer += EndCountdownTimer;
 
+            gameplayManager.OnUpdateGameTimer += UpdateGameTimer;
             gameplayManager.OnPauseGameTimer += PauseGameTimer;
             gameplayManager.OnEndGameTimer += EndGameTimer;
+
+            gameplayManager.OnStartBonusTimer += StartBonusTimer;
+            gameplayManager.OnUpdateBonusTimer += UpdateBonusTimer;
+            gameplayManager.OnEndBonusTimer += EndBonusTimer;
+
+            gameplayManager.OnStartShieldTimer += StartShieldTimer;
+            gameplayManager.OnEndShieldTimer += EndShieldTimer;
         }
 
         private void DisableAction()
         {
+            gameplayManager.OnStartGame -= StartGame;
+            gameplayManager.OnEndGame -= EndGame;
+            gameplayManager.OnExitGame -= ExitGame;
 
+            gameplayManager.OnSoulCollected -= SoulCollected;
+            gameplayManager.OnCryptoCollected -= CryptoCollected;
+            gameplayManager.OnDiamondCollected -= DiamondCollected;
+            gameplayManager.OnSymbolCollected -= SymbolCollected;
+            gameplayManager.OnSoulMissed -= SoulMissed;
+
+            gameplayManager.OnStartCountdownTimer -= StartCountdownTimer;
+            gameplayManager.OnUpdateCountdownTimer -= UpdateCountdownTimer;
+            gameplayManager.OnEndCountdownTimer -= EndCountdownTimer;
+
+            gameplayManager.OnUpdateGameTimer -= UpdateGameTimer;
+            gameplayManager.OnPauseGameTimer -= PauseGameTimer;
+            gameplayManager.OnEndGameTimer -= EndGameTimer;
+
+
+            gameplayManager.OnStartBonusTimer -= StartBonusTimer;
+            gameplayManager.OnUpdateBonusTimer -= UpdateBonusTimer;
+            gameplayManager.OnEndBonusTimer -= EndBonusTimer;
+
+            gameplayManager.OnStartShieldTimer -= StartShieldTimer;
+            gameplayManager.OnEndShieldTimer -= EndShieldTimer;
         }
 
-        #region Action Timer
-        private void StartCountdownTimer()
+        #region Action Game
+        private void StartGame()
         {
             uiHome.Hide();
             uiCountdown.Show();
+        }
 
+        private void EndGame()
+        {
+            uiEndgamePopup.Show();
+        }
+
+        private void ExitGame()
+        {
+            uiHome.Show();
+            uiGameplay.Hide();
+            uiEndgamePopup.Hide();
+            uiPausePopup.Hide();
+        }
+        #endregion
+
+        #region Action Collect
+        private void SoulCollected(int value)
+        {
+            uiGameplay.SoulCollected(value);
+        }
+
+        private void CryptoCollected(int value)
+        {
+            uiGameplay.CryptoCollected(value);
+        }
+
+        private void DiamondCollected(int value)
+        {
+            uiGameplay.DiamondCollected(value);
+        }
+
+        private void SymbolCollected()
+        {
+            uiGameplay.SymbolCollected();
+        }
+
+        private void SoulMissed()
+        {
+            uiGameplay.SoulMissed();
+        }
+        #endregion
+
+        #region Action Timer
+        // Countdown
+        private void StartCountdownTimer()
+        {
             if(gameplayManager.IsStart == false)
             {
                 uiGameplay.Show();
@@ -69,9 +154,20 @@ namespace NumGates
             }
         }
 
+        private void UpdateCountdownTimer(float timer)
+        {
+            uiCountdown.UpdateText(timer);
+        }
+
         private void EndCountdownTimer()
         {
             uiCountdown.Hide();
+        }
+
+        // Timer
+        private void UpdateGameTimer(float timer, float maxTimer)
+        {
+            uiGameplay.UpdateGameTimer(timer, maxTimer);
         }
 
         private void PauseGameTimer()
@@ -82,6 +178,33 @@ namespace NumGates
         private void EndGameTimer()
         {
             uiEndgamePopup.Show();
+        }
+
+        // Bonus
+        public void StartBonusTimer()
+        {
+            uiGameplay.StartBonusTimer();
+        }
+
+        public void UpdateBonusTimer(float timer, float maxTimer)
+        {
+            uiGameplay.UpdateBonusTimer(timer, maxTimer);
+        }
+
+        public void EndBonusTimer()
+        {
+            uiGameplay.EndBonusTimer();
+        }
+
+        // Shield
+        public void StartShieldTimer()
+        {
+            uiGameplay.StartShieldTimer();
+        }
+
+        public void EndShieldTimer()
+        {
+            uiGameplay.EndShieldTimer();
         }
         #endregion
     }

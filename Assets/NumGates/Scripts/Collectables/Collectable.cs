@@ -58,7 +58,7 @@ namespace NumGates
             else
             {
                 lifeTime = 0f;
-                if(hasDamage == true)
+                if(hasDamage == true && gameplayManager.IsShield == false)
                 {
                     gameplayManager.OnSoulMissed?.Invoke();
                 }

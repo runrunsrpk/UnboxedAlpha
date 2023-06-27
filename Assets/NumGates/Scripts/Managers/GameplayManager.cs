@@ -7,6 +7,10 @@ namespace NumGates
 {
     public class GameplayManager : MonoBehaviour
     {
+        public Action OnStartGame;
+        public Action OnEndGame;
+        public Action OnExitGame;
+
         [Header("Collect")]
         public Action<int> OnSoulCollected;
         public Action<int> OnCryptoCollected;
@@ -78,8 +82,6 @@ namespace NumGates
         public void Initialize()
         {
             InitManager();
-            InitVariable();
-
             EnableAction();
         }
 
@@ -104,6 +106,10 @@ namespace NumGates
 
         private void EnableAction()
         {
+            OnStartGame += StartGame;
+            OnEndGame += EndGame;
+            OnExitGame += ExitGame;
+
             OnClockCollected += ClockCollected;
             OnShieldCollected += ShieldCollected;
             OnMadSoulCollected += MadSoulCollected;
@@ -125,7 +131,53 @@ namespace NumGates
 
         private void DisableAction()
         {
-            
+            OnStartGame -= StartGame;
+            OnEndGame -= EndGame;
+            OnExitGame -= ExitGame;
+
+            OnClockCollected -= ClockCollected;
+            OnShieldCollected -= ShieldCollected;
+            OnMadSoulCollected -= MadSoulCollected;
+
+            OnStartCountdownTimer -= StartCountdownTimer;
+            OnEndCountdownTimer -= EndCountdownTimer;
+
+            OnStartGameTimer -= StartGameTimer;
+            OnPauseGameTimer -= PauseGameTimer;
+            OnResumeGameTimer -= ResumeGameTimer;
+            OnEndGameTimer -= EndGameTimer;
+
+            OnStartBonusTimer -= StartBonusTimer;
+            OnEndBonusTimer -= EndBonusTimer;
+
+            OnStartShieldTimer -= StartShieldTimer;
+            OnEndShieldTimer -= EndShieldTimer;
+        }
+        #endregion
+
+        #region Action Game
+        private void StartGame()
+        {
+            InitVariable();
+
+            OnUpdateGameTimer?.Invoke(gameTimer / TIMER_MULTIPLIER, maxGameTimer);
+            OnStartCountdownTimer?.Invoke();
+        }
+
+        private void EndGame()
+        {
+            isStart = false;
+            isBonus = false;
+            isShield = false;
+        }
+
+        private void ExitGame()
+        {
+            isCountdown = false;
+            isPause = false;
+            isStart = false;
+            isBonus = false;
+            isShield = false;
         }
         #endregion
 
@@ -134,6 +186,7 @@ namespace NumGates
         {
             isCountdown = true;
             countdownTimer = maxCountdownTimer * TIMER_MULTIPLIER;
+            OnUpdateCountdownTimer?.Invoke(countdownTimer / TIMER_MULTIPLIER);
         }
 
         private void UpdateCountdownTimer()
@@ -181,6 +234,7 @@ namespace NumGates
         {
             isStart = true;
             gameTimer = maxGameTimer * TIMER_MULTIPLIER;
+            OnUpdateGameTimer?.Invoke(gameTimer / TIMER_MULTIPLIER, maxGameTimer);
         }
 
         private void PauseGameTimer()
@@ -253,8 +307,6 @@ namespace NumGates
                 {
                     tickBonusTimer -= TICK_TIMER_MAX;
                     bonusTimer--;
-
-                    //OnUpdateBonusTimer?.Invoke(bonusTimer, maxBonusTimer);
 
                     if (bonusTimer % TIMER_MULTIPLIER == 0)
                     {
@@ -334,7 +386,7 @@ namespace NumGates
         {
             if(isShield == false)
             {
-                OnEndGameTimer?.Invoke();
+                OnEndGame?.Invoke();
             }
         }
         #endregion

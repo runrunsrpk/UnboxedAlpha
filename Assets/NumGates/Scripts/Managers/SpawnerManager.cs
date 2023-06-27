@@ -56,16 +56,15 @@ namespace NumGates
         private float currentShieldRate;
         private float currentItemRate;
 
-        [Header("Manager")]
         private GameManager gameManager;
         private UIManager uiManager;
         private GameplayManager gameplayManager;
 
+        private GameObject parent;
+
         public void Initialize()
         {
             InitManager();
-            InitVariable();
-
             EnableAction();
         }
 
@@ -76,6 +75,8 @@ namespace NumGates
 
         private void InitVariable()
         {
+            if (parent == null) parent = new GameObject("SpawnerParent");
+
             spawningSpeed = baseSpawningSpeed * TIMER_MULTIPLIER;
             waveTimer = baseSpawningSpeed * TIMER_MULTIPLIER;
         }
@@ -92,6 +93,9 @@ namespace NumGates
         {
             OnUpdateWaveTimer += UpdateWaveTimer;
 
+            gameplayManager.OnStartGame += StartGame;
+            gameplayManager.OnExitGame += ExitGame;
+
             gameplayManager.OnStartBonusTimer += StartBonusTimer;
             gameplayManager.OnEndBonusTimer += EndBonusTimer;
         }
@@ -99,6 +103,9 @@ namespace NumGates
         private void DisableAction()
         {
             OnUpdateWaveTimer -= UpdateWaveTimer;
+
+            gameplayManager.OnStartGame -= StartGame;
+            gameplayManager.OnExitGame -= ExitGame;
 
             gameplayManager.OnStartBonusTimer -= StartBonusTimer;
             gameplayManager.OnEndBonusTimer -= EndBonusTimer;
@@ -167,7 +174,19 @@ namespace NumGates
             spawnedItem.transform.position = randomPosition;
         }
 
-        #region Timer Action
+        #region Action Game
+        private void StartGame()
+        {
+            InitVariable();
+        }
+
+        private void ExitGame()
+        {
+            Destroy(parent);
+        }
+        #endregion
+
+        #region Action Timer
         private void StartBonusTimer()
         {
             spawningSpeed = bonusSpawningSpeed * TIMER_MULTIPLIER;
@@ -194,7 +213,7 @@ namespace NumGates
         private void RandomSpawning()
         {
             int itemId = UnityEngine.Random.Range(0, spawnPrefs.Length);
-            GameObject spawnedItem = Instantiate(spawnPrefs[itemId]);
+            GameObject spawnedItem = Instantiate(spawnPrefs[itemId],parent.transform);
             //GameObject spawnedItem = Instantiate(spawnPrefs[SpawnType.Clock]);
             RandomSpawnPosition(spawnedItem);
         }
