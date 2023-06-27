@@ -18,7 +18,13 @@ namespace NumGates
         public Action OnSoulMissed;
 
         [Header("Timer")]
+        public Action OnStartCountdownTimer;
+        public Action<float> OnUpdateCountdownTimer;
+        public Action OnEndCountdownTimer;
+
         public Action OnStartGameTimer;
+        public Action OnPauseGameTimer;
+        public Action OnResumeGameTimer;
         public Action<float, float> OnUpdateGameTimer;
         public Action OnEndGameTimer;
 
@@ -33,11 +39,15 @@ namespace NumGates
         public bool IsBonus => isBonus;
         public bool IsShield => isShield;
 
+        [SerializeField] private float maxCountdownTimer;
         [SerializeField] private float maxGameTimer;
         [SerializeField] private float maxBonusTimer;
         [SerializeField] private float maxShieldTimer;
 
+        [SerializeField] private bool isCountdown;
+        [SerializeField] private float countdownTimer;
         [SerializeField] private bool isStart;
+        [SerializeField] private bool isPause;
         [SerializeField] private float gameTimer;
         [SerializeField] private bool isBonus;
         [SerializeField] private float bonusTimer;
@@ -47,6 +57,7 @@ namespace NumGates
         private const float TICK_TIMER_MAX = 0.1f; // 1f = 1 sec and 0.1f = 1 millisec
         private const float TIMER_MULTIPLIER = 10f; // covert millisec to second
 
+        private float tickCountdownTimer;
         private float tickGameTimer;
         private float tickBonusTimer;
         private float tickShieldTimer;
@@ -56,6 +67,7 @@ namespace NumGates
 
         private void Update()
         {
+            UpdateCountdownTimer();
             UpdateGameTimer();
             UpdateBonusTimer();
             UpdateShieldTimer();
@@ -77,6 +89,7 @@ namespace NumGates
 
         private void InitVariable()
         {
+            countdownTimer = maxCountdownTimer * TIMER_MULTIPLIER;
             gameTimer = maxGameTimer * TIMER_MULTIPLIER;
             bonusTimer = maxBonusTimer * TIMER_MULTIPLIER;
             shieldTimer = maxShieldTimer * TIMER_MULTIPLIER;
@@ -94,6 +107,12 @@ namespace NumGates
             OnShieldCollected += ShieldCollected;
             OnMadSoulCollected += MadSoulCollected;
 
+            OnStartCountdownTimer += StartCountdownTimer;
+            OnEndCountdownTimer += EndCountdownTimer;
+
+            OnStartGameTimer += StartGameTimer;
+            OnPauseGameTimer += PauseGameTimer;
+            OnResumeGameTimer += ResumeGameTimer;
             OnEndGameTimer += EndGameTimer;
 
             OnStartBonusTimer += StartBonusTimer;
@@ -110,22 +129,84 @@ namespace NumGates
         #endregion
 
         #region Action Timer
+        private void StartCountdownTimer()
+        {
+            isCountdown = true;
+            countdownTimer = maxCountdownTimer * TIMER_MULTIPLIER;
+        }
+
+        private void UpdateCountdownTimer()
+        {
+            if (isCountdown == false) return;
+
+            if (countdownTimer - 1 > 0f)
+            {
+                tickCountdownTimer += Time.deltaTime;
+
+                if (tickCountdownTimer >= TICK_TIMER_MAX)
+                {
+                    tickCountdownTimer -= TICK_TIMER_MAX;
+                    countdownTimer--;
+
+                    if (countdownTimer % TIMER_MULTIPLIER == 0)
+                    {
+                        OnUpdateCountdownTimer?.Invoke(countdownTimer / TIMER_MULTIPLIER);
+                    }
+                }
+            }
+            else
+            {
+                OnEndCountdownTimer?.Invoke();
+            }
+        }
+
+        private void EndCountdownTimer()
+        {
+            tickCountdownTimer = 0f;
+            isCountdown = false;
+
+            if(isStart == false)
+            {
+                OnStartGameTimer?.Invoke();
+            }
+            else
+            {
+                OnResumeGameTimer?.Invoke();
+            }
+        }
+
+        // Game
+        private void StartGameTimer()
+        {
+            isStart = true;
+            gameTimer = maxGameTimer * TIMER_MULTIPLIER;
+        }
+
+        private void PauseGameTimer()
+        {
+            isPause = true;
+        }
+
+        private void ResumeGameTimer()
+        {
+            isPause = false;
+        }
+
         private void UpdateGameTimer()
         {
             if (isStart == false) return;
 
+            if (isPause == true) return;
+
             if (gameTimer - 1 > 0f)
             {
                 tickGameTimer += Time.deltaTime;
-
-                //Debug.Log($"Tick: {tickGameTimer} | Delta: {Time.deltaTime}");
 
                 if (tickGameTimer >= TICK_TIMER_MAX)
                 {
                     tickGameTimer -= TICK_TIMER_MAX;
                     gameTimer--;
 
-                    //OnUpdateGameTimer?.Invoke(gameTimer, maxGameTimer);
                     spawnerManager.OnUpdateWaveTimer?.Invoke();
 
                     if (gameTimer % TIMER_MULTIPLIER == 0)
@@ -136,17 +217,17 @@ namespace NumGates
             }
             else
             {
-                tickGameTimer = 0f;
-                // Invoke game stop action
                 OnEndGameTimer?.Invoke();
             }
         }
 
         private void EndGameTimer()
         {
+            tickGameTimer = 0f;
             isStart = false;
         }
 
+        // Bonus
         private void StartBonusTimer()
         {
             isBonus = true;
@@ -159,6 +240,8 @@ namespace NumGates
             if (isStart == false) return;
 
             if (isBonus == false) return;
+
+            if (isPause == true) return;
 
             if (bonusTimer - 1 > 0f)
             {
@@ -189,11 +272,20 @@ namespace NumGates
             bonusTimer = 0f;
         }
 
+        // Shield
+        private void StartShieldTimer()
+        {
+            isShield = true;
+            shieldTimer = maxShieldTimer * TIMER_MULTIPLIER;
+        }
+
         private void UpdateShieldTimer()
         {
             if (isStart == false) return;
 
             if (isShield == false) return;
+
+            if (isPause == true) return;
 
             if (shieldTimer - 1 > 0f)
             {
@@ -209,12 +301,6 @@ namespace NumGates
             {
                 OnEndShieldTimer?.Invoke();
             }
-        }
-
-        private void StartShieldTimer()
-        {
-            isShield = true;
-            shieldTimer = maxShieldTimer * TIMER_MULTIPLIER;
         }
 
         private void EndShieldTimer()

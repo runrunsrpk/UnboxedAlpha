@@ -194,8 +194,8 @@ namespace NumGates
         private void RandomSpawning()
         {
             int itemId = UnityEngine.Random.Range(0, spawnPrefs.Length);
-            //GameObject spawnedItem = Instantiate(spawnPrefs[itemId]);
-            GameObject spawnedItem = Instantiate(spawnPrefs[SpawnType.Clock]);
+            GameObject spawnedItem = Instantiate(spawnPrefs[itemId]);
+            //GameObject spawnedItem = Instantiate(spawnPrefs[SpawnType.Clock]);
             RandomSpawnPosition(spawnedItem);
         }
 

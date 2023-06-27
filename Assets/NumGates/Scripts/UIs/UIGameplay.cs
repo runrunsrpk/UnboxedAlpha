@@ -43,16 +43,33 @@ namespace NumGates
         private GameplayManager gameplayManager;
 
         #region Initialize
-        public void Initialize()
+        //public void Initialize()
+        //{
+        //    InitManager();
+        //    InitUI();
+
+        //    EnableAction();
+        //}
+
+        //public void Terminate()
+        //{
+        //    DisableAction();
+        //}
+
+        public void Show()
         {
+            gameObject.SetActive(true);
+
             InitManager();
             InitUI();
 
             EnableAction();
         }
 
-        public void Terminate()
+        public void Hide()
         {
+            gameObject.SetActive(false);
+
             DisableAction();
         }
 
@@ -146,7 +163,7 @@ namespace NumGates
         // Bonus
         private void StartBonusTimer()
         {
-            uiUnboxed.ActivateBonus();
+            uiUnboxed.EnableBonus();
         }
 
         private void UpdateBonusTimer(float timer, float maxTimer)
@@ -156,7 +173,7 @@ namespace NumGates
 
         private void EndBonusTimer()
         {
-            uiUnboxed.DeactivateBonus();
+            uiUnboxed.DisableBonus();
         }
 
         // Shield

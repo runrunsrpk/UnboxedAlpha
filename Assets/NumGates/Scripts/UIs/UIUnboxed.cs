@@ -23,7 +23,7 @@ namespace NumGates
 
             bonusSlider = unboxedGauge.GetComponent<Slider>();
 
-            DeactivateBonus();
+            DisableBonus();
         }
 
         public void AddSymbol()
@@ -41,7 +41,7 @@ namespace NumGates
             }
         }
 
-        public void ActivateBonus()
+        public void EnableBonus()
         {
             unboxedGauge.gameObject.SetActive(true);
 
@@ -57,7 +57,7 @@ namespace NumGates
             bonusSlider.value = value / maxValue;
         }
 
-        public void DeactivateBonus()
+        public void DisableBonus()
         {
             unboxedGauge.gameObject.SetActive(false);
 
