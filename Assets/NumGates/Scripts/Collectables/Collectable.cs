@@ -49,7 +49,9 @@ namespace NumGates
 
             if (gameplayManager.IsStart == false) return;
 
-            if(lifeTime > 0f)
+            if (gameplayManager.IsPause == true) return;
+
+            if (lifeTime > 0f)
             {
                 lifeTime -= Time.deltaTime;
             }

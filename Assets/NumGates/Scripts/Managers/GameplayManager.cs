@@ -36,6 +36,7 @@ namespace NumGates
         public Action OnEndShieldTimer;
 
         public bool IsStart => isStart;
+        public bool IsPause => isPause;
         public bool IsBonus => isBonus;
         public bool IsShield => isShield;
 
@@ -223,6 +224,7 @@ namespace NumGates
 
         private void EndGameTimer()
         {
+            OnUpdateGameTimer?.Invoke(0f, maxGameTimer);
             tickGameTimer = 0f;
             isStart = false;
         }
@@ -268,6 +270,7 @@ namespace NumGates
 
         private void EndBonusTimer()
         {
+            OnUpdateBonusTimer?.Invoke(0f, maxBonusTimer);
             isBonus = false;
             bonusTimer = 0f;
         }

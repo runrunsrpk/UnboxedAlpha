@@ -10,6 +10,7 @@ namespace NumGates
         public UIGameplay UIGameplay => uiGameplay;
 
         [SerializeField] private UIEndgamePopup uiEndgamePopup;
+        [SerializeField] private UIPausePopup uiPausePopup;
 
         [SerializeField] private UICountdown uiCountdown;
         [SerializeField] private UIHome uiHome;
@@ -43,6 +44,7 @@ namespace NumGates
             gameplayManager.OnStartCountdownTimer += StartCountdownTimer;
             gameplayManager.OnEndCountdownTimer += EndCountdownTimer;
 
+            gameplayManager.OnPauseGameTimer += PauseGameTimer;
             gameplayManager.OnEndGameTimer += EndGameTimer;
         }
 
@@ -55,13 +57,26 @@ namespace NumGates
         private void StartCountdownTimer()
         {
             uiHome.Hide();
-            uiGameplay.Show();
             uiCountdown.Show();
+
+            if(gameplayManager.IsStart == false)
+            {
+                uiGameplay.Show();
+            }
+            else
+            {
+                uiPausePopup.Hide();
+            }
         }
 
         private void EndCountdownTimer()
         {
             uiCountdown.Hide();
+        }
+
+        private void PauseGameTimer()
+        {
+            uiPausePopup.Show();
         }
 
         private void EndGameTimer()

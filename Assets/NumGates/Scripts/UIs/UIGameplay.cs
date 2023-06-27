@@ -64,6 +64,8 @@ namespace NumGates
             InitUI();
 
             EnableAction();
+
+            pauseButton.onClick.AddListener(OnClickPause);
         }
 
         public void Hide()
@@ -71,6 +73,8 @@ namespace NumGates
             gameObject.SetActive(false);
 
             DisableAction();
+
+            pauseButton.onClick.RemoveListener(OnClickPause);
         }
 
         private void InitManager()
@@ -185,6 +189,13 @@ namespace NumGates
         private void EndShieldTimer()
         {
             uiHealth.DisableShield();
+        }
+        #endregion
+
+        #region Button
+        private void OnClickPause()
+        {
+            gameplayManager.OnPauseGameTimer?.Invoke();
         }
         #endregion
     }
