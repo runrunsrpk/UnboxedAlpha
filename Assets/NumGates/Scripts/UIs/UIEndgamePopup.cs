@@ -37,6 +37,11 @@ namespace NumGates
             uiCrypto.UpdateText(crypto);
         }
 
+        public void ShowHighScore()
+        {
+            highscore.gameObject.SetActive(true);
+        }
+
         //public void UpdatePopup(int score, int crypto, int diamond)
         //{
         //    uiScore.UpdateText(score);
@@ -62,6 +67,8 @@ namespace NumGates
 
             uiScore.InitUI();
             uiCrypto.InitUI();
+
+            highscore.gameObject.SetActive(false);
         }
 
         #region Button

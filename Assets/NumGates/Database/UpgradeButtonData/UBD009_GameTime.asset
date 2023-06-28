@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeIcon: {fileID: 0}
   upgradeName: Game Time
-  upgradeType: 8
+  upgradeType: 7
   maxUpgradeLevel: 4
   upgradeDetail:
   - Time +30 sec

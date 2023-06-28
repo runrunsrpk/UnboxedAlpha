@@ -112,9 +112,26 @@ namespace NumGates
         private void EndGame()
         {
             uiEndgamePopup.Show();
+            uiEndgamePopup.UpdatePopup(uiGameplay.Score, uiGameplay.Crypto);
 
             //TODO: Save data to somewhere
-            uiEndgamePopup.UpdatePopup(uiGameplay.Score, uiGameplay.Crypto);
+            if (PlayerPrefs.HasKey(PlayerPrefsKey.Highscore))
+            {
+                int highscore = PlayerPrefs.GetInt(PlayerPrefsKey.Highscore);
+
+                if(uiGameplay.Score > highscore)
+                {
+                    uiEndgamePopup.ShowHighScore();
+                    PlayerPrefs.SetInt(PlayerPrefsKey.Highscore, uiGameplay.Score);
+                }
+            }
+
+            if (PlayerPrefs.HasKey(PlayerPrefsKey.Crypto))
+            {
+                int playerCrypto = PlayerPrefs.GetInt(PlayerPrefsKey.Crypto) + uiGameplay.Crypto;
+
+                PlayerPrefs.SetInt(PlayerPrefsKey.Crypto, playerCrypto);
+            }
         }
 
         private void ExitGame()

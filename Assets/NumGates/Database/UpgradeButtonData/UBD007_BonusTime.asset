@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeIcon: {fileID: 0}
   upgradeName: Bonus Time
-  upgradeType: 6
+  upgradeType: 5
   maxUpgradeLevel: 6
   upgradeDetail:
   - Bonus +5 sec

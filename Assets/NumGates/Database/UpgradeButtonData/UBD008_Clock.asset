@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeIcon: {fileID: 0}
   upgradeName: Clock
-  upgradeType: 7
+  upgradeType: 6
   maxUpgradeLevel: 5
   upgradeDetail:
   - Clock +1 sec

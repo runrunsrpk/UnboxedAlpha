@@ -17,6 +17,13 @@ namespace NumGates
         Timer
     }
 
+    public static class PlayerPrefsKey
+    {
+        public static readonly string Highscore = "Highscore";
+        public static readonly string Crypto = "Crypto";
+        public static readonly string Upgrades = "Upgrades";
+    }
+
     public class PlayerData
     {
         public int highscore;
@@ -55,19 +62,39 @@ namespace NumGates
         {
             playerData = new PlayerData();
 
-            playerData.highscore = 99;
-            playerData.crypto = 999999;
+            if(PlayerPrefs.HasKey(PlayerPrefsKey.Highscore))
+            {
+                //playerData.highscore = 99;
+                playerData.highscore = PlayerPrefs.GetInt(PlayerPrefsKey.Highscore);
+            }
+
+            if(PlayerPrefs.HasKey(PlayerPrefsKey.Crypto))
+            {
+                //playerData.crypto = 999999;
+                playerData.crypto = PlayerPrefs.GetInt(PlayerPrefsKey.Crypto);
+            }
+
             //playerData.diamond = 9999;
 
-            playerData.updradeLevels[(int)UpgradeType.Health] = 4;
-            playerData.updradeLevels[(int)UpgradeType.Shield] = 1;
-            playerData.updradeLevels[(int)UpgradeType.PureSoul] = 4;
-            playerData.updradeLevels[(int)UpgradeType.ColorSoul] = 3;
-            playerData.updradeLevels[(int)UpgradeType.Crypto] = 2;
+            if (PlayerPrefs.HasKey(PlayerPrefsKey.Upgrades))
+            {
+                string[] upgradeLevels = PlayerPrefs.GetString(PlayerPrefsKey.Upgrades).Split('/');
+
+                for(int i = 0; i < upgradeLevels.Length; i++)
+                {
+                    playerData.updradeLevels[i] = int.Parse(upgradeLevels[i]);
+                }
+            }
+
+            //playerData.updradeLevels[(int)UpgradeType.Health] = 4;
+            //playerData.updradeLevels[(int)UpgradeType.Shield] = 1;
+            //playerData.updradeLevels[(int)UpgradeType.PureSoul] = 4;
+            //playerData.updradeLevels[(int)UpgradeType.ColorSoul] = 3;
+            //playerData.updradeLevels[(int)UpgradeType.Crypto] = 2;
             //playerData.updradeLevels[(int)UpgradeType.Diamond] = 0;
-            playerData.updradeLevels[(int)UpgradeType.Bonus] = 2;
-            playerData.updradeLevels[(int)UpgradeType.Clock] = 2;
-            playerData.updradeLevels[(int)UpgradeType.Timer] = 2;
+            //playerData.updradeLevels[(int)UpgradeType.Bonus] = 2;
+            //playerData.updradeLevels[(int)UpgradeType.Clock] = 2;
+            //playerData.updradeLevels[(int)UpgradeType.Timer] = 2;
 
             //TODO: Load data from save
         }
@@ -85,11 +112,21 @@ namespace NumGates
         #region Get
         public int GetHighscore()
         {
+            if (PlayerPrefs.HasKey(PlayerPrefsKey.Highscore))
+            {
+                playerData.highscore = PlayerPrefs.GetInt(PlayerPrefsKey.Highscore);
+            }
+
             return playerData.highscore;
         }
 
         public int GetCrypto()
         {
+            if (PlayerPrefs.HasKey(PlayerPrefsKey.Crypto))
+            {
+                playerData.crypto = PlayerPrefs.GetInt(PlayerPrefsKey.Crypto);
+            }
+
             return playerData.crypto;
         }
 
@@ -100,6 +137,16 @@ namespace NumGates
 
         public int GetUpgradeLevel(UpgradeType type)
         {
+            if (PlayerPrefs.HasKey(PlayerPrefsKey.Upgrades))
+            {
+                string[] upgradeLevels = PlayerPrefs.GetString(PlayerPrefsKey.Upgrades).Split('/');
+
+                for (int i = 0; i < upgradeLevels.Length; i++)
+                {
+                    playerData.updradeLevels[i] = int.Parse(upgradeLevels[i]);
+                }
+            }
+
             return playerData.updradeLevels[(int)type];
         }
         #endregion

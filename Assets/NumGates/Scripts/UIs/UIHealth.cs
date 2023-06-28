@@ -50,7 +50,7 @@ namespace NumGates
             }
             else
             {
-                gameplayManager.OnEndGameTimer?.Invoke();
+                gameplayManager.OnEndGame?.Invoke();
             }
         }
 

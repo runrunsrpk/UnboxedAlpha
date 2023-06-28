@@ -35,6 +35,8 @@ namespace NumGates
 
         private void Initialize()
         {
+            CreateSave();
+
             PlayerManager.Initialize();
             GameplayManager.Initialize();
             SpawnerManager.Initialize();
@@ -47,6 +49,24 @@ namespace NumGates
             GameplayManager.Terminate();
             SpawnerManager.Terminate();
             UIManager.Terminate();
+        }
+
+        private void CreateSave()
+        {
+            if (!PlayerPrefs.HasKey(PlayerPrefsKey.Highscore))
+            {
+                PlayerPrefs.SetInt(PlayerPrefsKey.Highscore, 0);
+            }
+
+            if (!PlayerPrefs.HasKey(PlayerPrefsKey.Crypto))
+            {
+                PlayerPrefs.SetInt(PlayerPrefsKey.Crypto, 0);
+            }
+
+            if (!PlayerPrefs.HasKey(PlayerPrefsKey.Upgrades))
+            {
+                PlayerPrefs.SetString(PlayerPrefsKey.Upgrades, "0/0/0/0/0/0/0/0");
+            }
         }
     }
 }
