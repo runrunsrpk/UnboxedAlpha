@@ -5,6 +5,19 @@ using UnityEngine;
 
 namespace NumGates
 {
+    public class GameplayData
+    {
+        public int health;
+        public float shield;
+        public int pureSoul;
+        public int colorSoul;
+        public int crypto;
+        public int diamond;
+        public float bonus;
+        public int clock;
+        public float timer;
+    }
+
     public class GameplayManager : MonoBehaviour
     {
         public Action OnStartGame;
@@ -46,19 +59,19 @@ namespace NumGates
         public bool IsShield => isShield;
 
         [SerializeField] private float maxCountdownTimer;
-        [SerializeField] private float maxGameTimer;
-        [SerializeField] private float maxBonusTimer;
-        [SerializeField] private float maxShieldTimer;
+        //[SerializeField] private float maxGameTimer;
+        //[SerializeField] private float maxBonusTimer;
+        //[SerializeField] private float maxShieldTimer;
 
-        [SerializeField] private bool isCountdown;
-        [SerializeField] private float countdownTimer;
-        [SerializeField] private bool isStart;
-        [SerializeField] private bool isPause;
-        [SerializeField] private float gameTimer;
-        [SerializeField] private bool isBonus;
-        [SerializeField] private float bonusTimer;
-        [SerializeField] private bool isShield;
-        [SerializeField] private float shieldTimer;
+        private bool isCountdown;
+        private float countdownTimer;
+        private bool isStart;
+        private bool isPause;
+        private float gameTimer;
+        private bool isBonus;
+        private float bonusTimer;
+        private bool isShield;
+        private float shieldTimer;
 
         private const float TICK_TIMER_MAX = 0.1f; // 1f = 1 sec and 0.1f = 1 millisec
         private const float TIMER_MULTIPLIER = 10f; // covert millisec to second
@@ -70,6 +83,12 @@ namespace NumGates
 
         private GameManager gameManager;
         private SpawnerManager spawnerManager;
+        private PlayerManager playerManager;
+
+        [SerializeField] private GameplayValueData gameplayValueData;
+
+        private GameplayData baseGameplayData;
+        private GameplayData gameplayData;
 
         private void Update()
         {
@@ -94,15 +113,49 @@ namespace NumGates
         private void InitVariable()
         {
             countdownTimer = maxCountdownTimer * TIMER_MULTIPLIER;
-            gameTimer = maxGameTimer * TIMER_MULTIPLIER;
-            bonusTimer = maxBonusTimer * TIMER_MULTIPLIER;
-            shieldTimer = maxShieldTimer * TIMER_MULTIPLIER;
+            //gameTimer = maxGameTimer * TIMER_MULTIPLIER;
+            //bonusTimer = maxBonusTimer * TIMER_MULTIPLIER;
+            //shieldTimer = maxShieldTimer * TIMER_MULTIPLIER;
+
+            gameTimer = gameplayData.timer * TIMER_MULTIPLIER;
+            bonusTimer = gameplayData.bonus * TIMER_MULTIPLIER;
+            shieldTimer = gameplayData.shield * TIMER_MULTIPLIER;
         }
 
         private void InitManager()
         {
             gameManager = GameManager.Instance;
             spawnerManager = gameManager.SpawnerManager;
+            playerManager = gameManager.PlayerManager;
+        }
+
+        private void InitGameplayData()
+        {
+            baseGameplayData = new GameplayData()
+            {
+                health = 1,
+                shield = 5f,
+                pureSoul = 1,
+                colorSoul = 3,
+                crypto = 1,
+                diamond = 1,
+                bonus = 10f,
+                clock = 5,
+                timer = 60f,
+            };
+  
+            gameplayData = new GameplayData()
+            {
+                health = baseGameplayData.health + gameplayValueData.healthValue[playerManager.GetUpgradeHealth()],
+                shield = baseGameplayData.shield + gameplayValueData.shieldTimerValue[playerManager.GetUpgradeShield()],
+                pureSoul = baseGameplayData.pureSoul + gameplayValueData.pureSoulValue[playerManager.GetUpgradePureSoul()],
+                colorSoul = baseGameplayData.colorSoul + gameplayValueData.colorSoulValue[playerManager.GetUpgradeColorSoul()],
+                crypto = baseGameplayData.crypto + gameplayValueData.cryptoValue[playerManager.GetUpgradeCrypto()],
+                diamond = baseGameplayData.diamond + gameplayValueData.diamondValue[playerManager.GetUpgradeDiamond()],
+                bonus = baseGameplayData.bonus + gameplayValueData.bonusTimerValue[playerManager.GetUpgradeBonus()],
+                clock = baseGameplayData.clock + gameplayValueData.clockValue[playerManager.GetUpgradeClock()],
+                timer = baseGameplayData.timer + gameplayValueData.gameTimerValue[playerManager.GetUpgradeTimer()],
+            };
         }
 
         private void EnableAction()
@@ -161,9 +214,10 @@ namespace NumGates
         #region Action Game
         private void StartGame()
         {
+            InitGameplayData();
             InitVariable();
 
-            OnUpdateGameTimer?.Invoke(gameTimer / TIMER_MULTIPLIER, maxGameTimer);
+            OnUpdateGameTimer?.Invoke(gameTimer / TIMER_MULTIPLIER, gameplayData.timer);
             OnStartCountdownTimer?.Invoke();
         }
 
@@ -244,8 +298,8 @@ namespace NumGates
         private void StartGameTimer()
         {
             isStart = true;
-            gameTimer = maxGameTimer * TIMER_MULTIPLIER;
-            OnUpdateGameTimer?.Invoke(gameTimer / TIMER_MULTIPLIER, maxGameTimer);
+            gameTimer = gameplayData.timer * TIMER_MULTIPLIER;
+            OnUpdateGameTimer?.Invoke(gameTimer / TIMER_MULTIPLIER, gameplayData.timer);
         }
 
         private void PauseGameTimer()
@@ -277,7 +331,7 @@ namespace NumGates
 
                     if (gameTimer % TIMER_MULTIPLIER == 0)
                     {
-                        OnUpdateGameTimer?.Invoke(gameTimer / TIMER_MULTIPLIER, maxGameTimer);
+                        OnUpdateGameTimer?.Invoke(gameTimer / TIMER_MULTIPLIER, gameplayData.timer);
                     }
                 }
             }
@@ -290,7 +344,7 @@ namespace NumGates
 
         private void EndGameTimer()
         {
-            OnUpdateGameTimer?.Invoke(0f, maxGameTimer);
+            OnUpdateGameTimer?.Invoke(0f, gameplayData.timer);
             tickGameTimer = 0f;
         }
 
@@ -298,8 +352,8 @@ namespace NumGates
         private void StartBonusTimer()
         {
             isBonus = true;
-            bonusTimer = maxBonusTimer * TIMER_MULTIPLIER;
-            OnUpdateBonusTimer?.Invoke(bonusTimer / TIMER_MULTIPLIER, maxBonusTimer);
+            bonusTimer = gameplayData.bonus * TIMER_MULTIPLIER;
+            OnUpdateBonusTimer?.Invoke(bonusTimer / TIMER_MULTIPLIER, gameplayData.bonus);
         }
 
         private void UpdateBonusTimer()
@@ -321,7 +375,7 @@ namespace NumGates
 
                     if (bonusTimer % TIMER_MULTIPLIER == 0)
                     {
-                        OnUpdateBonusTimer?.Invoke(bonusTimer / TIMER_MULTIPLIER, maxBonusTimer);
+                        OnUpdateBonusTimer?.Invoke(bonusTimer / TIMER_MULTIPLIER, gameplayData.bonus);
                     }
                 }
             }
@@ -333,7 +387,7 @@ namespace NumGates
 
         private void EndBonusTimer()
         {
-            OnUpdateBonusTimer?.Invoke(0f, maxBonusTimer);
+            OnUpdateBonusTimer?.Invoke(0f, gameplayData.bonus);
             isBonus = false;
             bonusTimer = 0f;
         }
@@ -342,7 +396,7 @@ namespace NumGates
         private void StartShieldTimer()
         {
             isShield = true;
-            shieldTimer = maxShieldTimer * TIMER_MULTIPLIER;
+            shieldTimer = gameplayData.shield * TIMER_MULTIPLIER;
         }
 
         private void UpdateShieldTimer()
@@ -379,10 +433,10 @@ namespace NumGates
         #region Action Collect
         private void ClockCollected(int value)
         {
-            gameTimer = ((gameTimer / TIMER_MULTIPLIER) + value > maxGameTimer) ?
-                maxGameTimer * TIMER_MULTIPLIER : gameTimer + ( value * TIMER_MULTIPLIER);
+            gameTimer = ((gameTimer / TIMER_MULTIPLIER) + value > gameplayData.timer) ?
+                gameplayData.timer * TIMER_MULTIPLIER : gameTimer + ( value * TIMER_MULTIPLIER);
 
-            OnUpdateGameTimer?.Invoke(gameTimer / TIMER_MULTIPLIER, maxGameTimer);
+            OnUpdateGameTimer?.Invoke(gameTimer / TIMER_MULTIPLIER, gameplayData.timer);
         }
 
         private void ShieldCollected()

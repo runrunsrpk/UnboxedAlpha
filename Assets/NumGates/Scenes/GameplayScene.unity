@@ -677,18 +677,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxCountdownTimer: 3
-  maxGameTimer: 60
-  maxBonusTimer: 10
-  maxShieldTimer: 5
-  isCountdown: 0
-  countdownTimer: 0
-  isStart: 0
-  isPause: 0
-  gameTimer: 0
-  isBonus: 0
-  bonusTimer: 0
-  isShield: 0
-  shieldTimer: 0
+  gameplayValueData: {fileID: 11400000, guid: acb34cce28ff94566871f5fb585338b3, type: 2}
 --- !u!1 &124047243
 GameObject:
   m_ObjectHideFlags: 0
@@ -5502,6 +5491,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eddd99beda5e547f39fcbb1e837e86e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiCrypto: {fileID: 1616246238}
+  uiDiamond: {fileID: 2014232300}
   startButton: {fileID: 958841266}
   storeButton: {fileID: 454699585}
   upgradeButton: {fileID: 2121721669}
@@ -8680,6 +8671,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1472522509}
+  - component: {fileID: 1472522512}
   - component: {fileID: 1472522511}
   m_Layer: 0
   m_Name: PlayerManager
@@ -8713,6 +8705,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fd12f1dc7338da44793cf8d1fb3a1a66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &1472522512
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1472522508}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9f547173116ea419faa5604b39c22b53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1477967868
@@ -9614,6 +9618,7 @@ GameObject:
   - component: {fileID: 1616246235}
   - component: {fileID: 1616246237}
   - component: {fileID: 1616246236}
+  - component: {fileID: 1616246238}
   m_Layer: 5
   m_Name: CryptoBG
   m_TagString: Untagged
@@ -9681,6 +9686,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1616246234}
   m_CullTransparentMesh: 1
+--- !u!114 &1616246238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1616246234}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d881d4b75616646b9a2e8ae702b6cdb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 1013442022}
 --- !u!1 &1683335241
 GameObject:
   m_ObjectHideFlags: 0
@@ -11457,6 +11475,7 @@ GameObject:
   - component: {fileID: 2014232297}
   - component: {fileID: 2014232299}
   - component: {fileID: 2014232298}
+  - component: {fileID: 2014232300}
   m_Layer: 5
   m_Name: DiamondBG
   m_TagString: Untagged
@@ -11524,6 +11543,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2014232296}
   m_CullTransparentMesh: 1
+--- !u!114 &2014232300
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2014232296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d881d4b75616646b9a2e8ae702b6cdb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textMesh: {fileID: 1046799720}
 --- !u!1 &2038657891
 GameObject:
   m_ObjectHideFlags: 0

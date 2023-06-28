@@ -7,6 +7,12 @@ namespace NumGates
 {
     public class UIHome : MonoBehaviour
     {
+        [Header("Text")]
+        //[SerializeField] private UIGameplayText uiHighscore;
+        [SerializeField] private UIGameplayText uiCrypto;
+        [SerializeField] private UIGameplayText uiDiamond;
+
+        [Header("Button")]
         [SerializeField] private Button startButton;
         [SerializeField] private Button storeButton;
         [SerializeField] private Button upgradeButton;
@@ -14,6 +20,7 @@ namespace NumGates
 
         private GameplayManager gameplayManager;
         private UIManager uiManager;
+        private PlayerManager playerManager;
 
         public void Show()
         {
@@ -44,6 +51,11 @@ namespace NumGates
         {
             gameplayManager = GameManager.Instance.GameplayManager;
             uiManager = GameManager.Instance.UIManager;
+            playerManager = GameManager.Instance.PlayerManager;
+
+            //uiHighscore.UpdateText(playerManager.GetHighscore());
+            uiCrypto.UpdateText(playerManager.GetCrypto());
+            uiDiamond.UpdateText(playerManager.GetDiamond());
         }
 
         #region Button

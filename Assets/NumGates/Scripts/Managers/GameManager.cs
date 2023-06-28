@@ -11,6 +11,7 @@ namespace NumGates
         public GameplayManager GameplayManager { get; private set; }
         public SpawnerManager SpawnerManager { get; private set; }
         public UIManager UIManager { get; private set; }
+        public PlayerManager PlayerManager { get; private set; }
 
         private void Awake()
         {
@@ -23,6 +24,7 @@ namespace NumGates
 
             GameplayManager = GetComponentInChildren<GameplayManager>();
             SpawnerManager = GetComponentInChildren<SpawnerManager>();
+            PlayerManager = GetComponentInChildren<PlayerManager>();
             UIManager = GetComponentInChildren<UIManager>();
         }
 
@@ -33,6 +35,7 @@ namespace NumGates
 
         private void Initialize()
         {
+            PlayerManager.Initialize();
             GameplayManager.Initialize();
             SpawnerManager.Initialize();
             UIManager.Initialize();
@@ -40,6 +43,7 @@ namespace NumGates
 
         private void Terminate()
         {
+            PlayerManager.Terminate();
             GameplayManager.Terminate();
             SpawnerManager.Terminate();
             UIManager.Terminate();
