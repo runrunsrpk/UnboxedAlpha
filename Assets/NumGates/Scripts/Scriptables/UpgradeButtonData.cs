@@ -9,6 +9,7 @@ namespace NumGates
     {
         public Sprite upgradeIcon;
         public string upgradeName;
+        public UpgradeType upgradeType;
         public int maxUpgradeLevel;
         public string[] upgradeDetail;
         public int[] upgradePrice;

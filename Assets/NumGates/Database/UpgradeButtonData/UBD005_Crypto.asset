@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeIcon: {fileID: 0}
   upgradeName: Crypto
+  upgradeType: 4
   maxUpgradeLevel: 4
   upgradeDetail:
   - Crypto +2

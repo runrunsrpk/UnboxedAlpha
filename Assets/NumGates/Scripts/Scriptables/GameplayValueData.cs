@@ -8,7 +8,7 @@ namespace NumGates
     public class GameplayValueData : ScriptableObject
     {
         public int[] healthValue;
-        public float[] shieldTimerValue;
+        public int[] shieldTimerValue;
         public int[] pureSoulValue;
         public int[] colorSoulValue;
         public int[] cryptoValue;

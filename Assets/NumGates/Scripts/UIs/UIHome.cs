@@ -53,9 +53,14 @@ namespace NumGates
             uiManager = GameManager.Instance.UIManager;
             playerManager = GameManager.Instance.PlayerManager;
 
+#if UNITY_STANDALONE
+            uiDiamond.Hide();
+#else
+            uiDiamond.Show();
+            uiDiamond.UpdateText(playerManager.GetDiamond());
+#endif
             //uiHighscore.UpdateText(playerManager.GetHighscore());
             uiCrypto.UpdateText(playerManager.GetCrypto());
-            uiDiamond.UpdateText(playerManager.GetDiamond());
         }
 
         #region Button

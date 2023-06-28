@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeIcon: {fileID: 0}
   upgradeName: Shield
+  upgradeType: 1
   maxUpgradeLevel: 5
   upgradeDetail:
   - Shield +1 sec

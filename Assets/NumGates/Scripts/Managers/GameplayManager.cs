@@ -8,7 +8,7 @@ namespace NumGates
     public class GameplayData
     {
         public int health;
-        public float shield;
+        public int shield;
         public int pureSoul;
         public int colorSoul;
         public int crypto;
@@ -89,6 +89,7 @@ namespace NumGates
 
         private GameplayData baseGameplayData;
         private GameplayData gameplayData;
+        public GameplayData GameplayData => gameplayData;
 
         private void Update()
         {
@@ -134,7 +135,7 @@ namespace NumGates
             baseGameplayData = new GameplayData()
             {
                 health = 1,
-                shield = 5f,
+                shield = 5,
                 pureSoul = 1,
                 colorSoul = 3,
                 crypto = 1,
@@ -146,15 +147,15 @@ namespace NumGates
   
             gameplayData = new GameplayData()
             {
-                health = baseGameplayData.health + gameplayValueData.healthValue[playerManager.GetUpgradeHealth()],
-                shield = baseGameplayData.shield + gameplayValueData.shieldTimerValue[playerManager.GetUpgradeShield()],
-                pureSoul = baseGameplayData.pureSoul + gameplayValueData.pureSoulValue[playerManager.GetUpgradePureSoul()],
-                colorSoul = baseGameplayData.colorSoul + gameplayValueData.colorSoulValue[playerManager.GetUpgradeColorSoul()],
-                crypto = baseGameplayData.crypto + gameplayValueData.cryptoValue[playerManager.GetUpgradeCrypto()],
-                diamond = baseGameplayData.diamond + gameplayValueData.diamondValue[playerManager.GetUpgradeDiamond()],
-                bonus = baseGameplayData.bonus + gameplayValueData.bonusTimerValue[playerManager.GetUpgradeBonus()],
-                clock = baseGameplayData.clock + gameplayValueData.clockValue[playerManager.GetUpgradeClock()],
-                timer = baseGameplayData.timer + gameplayValueData.gameTimerValue[playerManager.GetUpgradeTimer()],
+                health = baseGameplayData.health + gameplayValueData.healthValue[playerManager.GetUpgradeLevel(UpgradeType.Health)],
+                shield = baseGameplayData.shield + gameplayValueData.shieldTimerValue[playerManager.GetUpgradeLevel(UpgradeType.Shield)],
+                pureSoul = baseGameplayData.pureSoul + gameplayValueData.pureSoulValue[playerManager.GetUpgradeLevel(UpgradeType.PureSoul)],
+                colorSoul = baseGameplayData.colorSoul + gameplayValueData.colorSoulValue[playerManager.GetUpgradeLevel(UpgradeType.ColorSoul)],
+                crypto = baseGameplayData.crypto + gameplayValueData.cryptoValue[playerManager.GetUpgradeLevel(UpgradeType.Crypto)],
+                diamond = baseGameplayData.diamond,
+                bonus = baseGameplayData.bonus + gameplayValueData.bonusTimerValue[playerManager.GetUpgradeLevel(UpgradeType.Bonus)],
+                clock = baseGameplayData.clock + gameplayValueData.clockValue[playerManager.GetUpgradeLevel(UpgradeType.Clock)],
+                timer = baseGameplayData.timer + gameplayValueData.gameTimerValue[playerManager.GetUpgradeLevel(UpgradeType.Timer)],
             };
         }
 

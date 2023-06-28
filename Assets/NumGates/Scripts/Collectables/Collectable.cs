@@ -20,6 +20,11 @@ namespace NumGates
         protected GameManager gameManager;
         protected GameplayManager gameplayManager;
 
+        public void InitValue(int value)
+        {
+            this.value = value;
+        }
+
         protected virtual void Start()
         {
             Init();

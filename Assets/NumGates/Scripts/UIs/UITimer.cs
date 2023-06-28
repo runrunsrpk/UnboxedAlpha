@@ -14,7 +14,7 @@ namespace NumGates
         public void InitUI()
         {
             //TODO: Set timer from player manager
-            UpdateTimerText(60);
+            //UpdateTimerText(60);
         }
 
         public void UpdateTimerText(float value)

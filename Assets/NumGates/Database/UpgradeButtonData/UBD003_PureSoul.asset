@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeIcon: {fileID: 0}
   upgradeName: Pure Soul
+  upgradeType: 2
   maxUpgradeLevel: 8
   upgradeDetail:
   - Score +1

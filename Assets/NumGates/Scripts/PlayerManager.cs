@@ -4,21 +4,35 @@ using UnityEngine;
 
 namespace NumGates
 {
+    public enum UpgradeType
+    {
+        Health,
+        Shield,
+        PureSoul,
+        ColorSoul,
+        Crypto,
+        Diamond,
+        Bonus,
+        Clock,
+        Timer
+    }
+
     public class PlayerData
     {
         public int highscore;
         public int crypto;
         public int diamond;
+        public int[] updradeLevels = new int[9];
 
-        public int upgradeHealth;
-        public int upgradeShield;
-        public int upgradePureSoul;
-        public int upgradeColorSoul;
-        public int upgradeCrypto;
-        public int upgradeDiamond;
-        public int upgradeBonus;
-        public int upgradeClock;
-        public int upgradeTimer;
+        //public int upgradeHealth;
+        //public int upgradeShield;
+        //public int upgradePureSoul;
+        //public int upgradeColorSoul;
+        //public int upgradeCrypto;
+        //public int upgradeDiamond;
+        //public int upgradeBonus;
+        //public int upgradeClock;
+        //public int upgradeTimer;
     }
 
     public class PlayerManager : MonoBehaviour
@@ -55,6 +69,16 @@ namespace NumGates
             playerData.crypto = 999999;
             playerData.diamond = 9999;
 
+            playerData.updradeLevels[(int)UpgradeType.Health] = 4;
+            playerData.updradeLevels[(int)UpgradeType.Shield] = 1;
+            playerData.updradeLevels[(int)UpgradeType.PureSoul] = 4;
+            playerData.updradeLevels[(int)UpgradeType.ColorSoul] = 3;
+            playerData.updradeLevels[(int)UpgradeType.Crypto] = 2;
+            playerData.updradeLevels[(int)UpgradeType.Diamond] = 0;
+            playerData.updradeLevels[(int)UpgradeType.Bonus] = 2;
+            playerData.updradeLevels[(int)UpgradeType.Clock] = 2;
+            playerData.updradeLevels[(int)UpgradeType.Timer] = 2;
+
             //TODO: Load data from save
         }
 
@@ -84,49 +108,9 @@ namespace NumGates
             return playerData.diamond;
         }
 
-        public int GetUpgradeHealth()
+        public int GetUpgradeLevel(UpgradeType type)
         {
-            return playerData.upgradeHealth;
-        }
-
-        public int GetUpgradeShield()
-        {
-            return playerData.upgradeShield;
-        }
-
-        public int GetUpgradePureSoul()
-        {
-            return playerData.upgradePureSoul;
-        }
-
-        public int GetUpgradeColorSoul()
-        {
-            return playerData.upgradeColorSoul;
-        }
-
-        public int GetUpgradeCrypto()
-        {
-            return playerData.upgradeCrypto;
-        }
-
-        public int GetUpgradeDiamond()
-        {
-            return playerData.upgradeDiamond;
-        }
-
-        public int GetUpgradeBonus()
-        {
-            return playerData.upgradeBonus;
-        }
-
-        public int GetUpgradeClock()
-        {
-            return playerData.upgradeClock;
-        }
-
-        public int GetUpgradeTimer()
-        {
-            return playerData.upgradeTimer;
+            return playerData.updradeLevels[(int)type];
         }
         #endregion
     }

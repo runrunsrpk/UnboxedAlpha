@@ -10,16 +10,18 @@ namespace NumGates
         [SerializeField] private Transform shieldGroup;
 
         private int health;
-        private int maxHealth = 4;
+        private int maxHealth;
 
+        private GameManager gameManager;
         private GameplayManager gameplayManager;
 
         public void InitUI()
         {
-            gameplayManager = GameManager.Instance.GameplayManager;
+            gameManager = GameManager.Instance;
+            gameplayManager = gameManager.GameplayManager;
 
-            //TODO: Set health from player manager
-            health = maxHealth;
+            maxHealth = gameplayManager.GameplayData.health;
+            health = gameplayManager.GameplayData.health;
 
             foreach(Transform child in healthGroup)
             {

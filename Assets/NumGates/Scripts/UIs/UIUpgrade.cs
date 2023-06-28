@@ -12,6 +12,8 @@ namespace NumGates
         [SerializeField] private Transform gridParent;
         [SerializeField] private Button exitButton;
 
+        private PlayerManager playerManager;
+
         public void Show()
         {
             gameObject.SetActive(true);
@@ -36,6 +38,8 @@ namespace NumGates
 
         private void InitUI()
         {
+            playerManager = GameManager.Instance.PlayerManager;
+
             foreach(UpgradeButtonData data in buttonDatas)
             {
 
@@ -45,8 +49,10 @@ namespace NumGates
                     continue;
                 }
 #endif
+                int playerUpgradeLevel = playerManager.GetUpgradeLevel(data.upgradeType);
+
                 UIUpgradeIcon uiUpgradeIcon = Instantiate(upgradeIconPref, gridParent).GetComponent<UIUpgradeIcon>();
-                uiUpgradeIcon.InitUI(data, 0);
+                uiUpgradeIcon.InitUI(data, playerUpgradeLevel);
             }
         }
 

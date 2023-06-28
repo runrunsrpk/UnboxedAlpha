@@ -14,6 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   upgradeIcon: {fileID: 0}
   upgradeName: Diamond
+  upgradeType: 5
   maxUpgradeLevel: 4
   upgradeDetail:
   - Chance +5%

@@ -221,9 +221,52 @@ namespace NumGates
         private void RandomSpawning()
         {
             int itemId = UnityEngine.Random.Range(0, spawnPrefs.Length);
-            GameObject spawnedItem = Instantiate(spawnPrefs[itemId],parent.transform);
+#if UNITY_STANDALONE
+            if (itemId != SpawnType.Diamond)
+            {
+                Collectable spawnedItem = Instantiate(spawnPrefs[itemId], parent.transform).GetComponent<Collectable>();
+                //GameObject spawnedItem = Instantiate(spawnPrefs[SpawnType.Symbol], parent.transform);
+                RandomSpawnPosition(spawnedItem.gameObject);
+                InitSpawnedValue(itemId, spawnedItem);
+            }
+#else
+            Collectable spawnedItem = Instantiate(spawnPrefs[itemId],parent.transform).GetComponent<Collectable>();
             //GameObject spawnedItem = Instantiate(spawnPrefs[SpawnType.Symbol], parent.transform);
-            RandomSpawnPosition(spawnedItem);
+            RandomSpawnPosition(spawnedItem.gameObject);
+            InitSpawnedValue(itemId, spawnedItem);
+#endif
+
+        }
+
+        private void InitSpawnedValue(int id, Collectable collectable)
+        {
+            switch (id)
+            {
+                case 0:
+                    collectable.InitValue(gameplayManager.GameplayData.pureSoul);
+                    break;
+                case 1:
+                    collectable.InitValue(gameplayManager.GameplayData.colorSoul);
+                    break;
+                case 2:
+                    collectable.InitValue(0);
+                    break;
+                case 3:
+                    collectable.InitValue(gameplayManager.GameplayData.crypto);
+                    break;
+                case 4:
+                    collectable.InitValue(gameplayManager.GameplayData.diamond);
+                    break;
+                case 5:
+                    collectable.InitValue(gameplayManager.GameplayData.clock);
+                    break;
+                case 6:
+                    collectable.InitValue(0);
+                    break;
+                case 7:
+                    collectable.InitValue(gameplayManager.GameplayData.shield);
+                    break;
+            }
         }
 
         private void SpawnSoul()

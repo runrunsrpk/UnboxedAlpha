@@ -30,7 +30,8 @@ namespace NumGates
             this.data = data;
             this.level = level;
 
-            InitUIUpgradeIcon(data.upgradeIcon, data.upgradeName, data.upgradeDetail[level], data.upgradePrice[level]);
+
+            InitUIUpgradeIcon(data.upgradeIcon, data.upgradeName, data.upgradeDetail[GetIndexLevel()], data.upgradePrice[GetIndexLevel()]);
             InitUIUpgradeLevel();
         }
 
@@ -93,6 +94,11 @@ namespace NumGates
         private bool IsMaxLevel()
         {
             return level == data.maxUpgradeLevel;
+        }
+
+        private int GetIndexLevel()
+        {
+            return IsMaxLevel() ? level - 1 : level;
         }
     }
 }
