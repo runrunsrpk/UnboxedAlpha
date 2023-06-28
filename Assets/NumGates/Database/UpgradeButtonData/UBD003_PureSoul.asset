@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc0d8f4cb2e1949998b25bb4146e8c03, type: 3}
+  m_Name: UBD003_PureSoul
+  m_EditorClassIdentifier: 
+  upgradeIcon: {fileID: 0}
+  upgradeName: Pure Soul
+  maxUpgradeLevel: 8
+  upgradeDetail:
+  - Score +1
+  - Score +2
+  - Score +3
+  - Score +4
+  - Score +5
+  - Score +6
+  - Score +7
+  - Score +8
+  upgradePrice: 0a00000032000000fa0000004c1d00007c920000f8240100f0490200e0930400

@@ -7,19 +7,21 @@ namespace NumGates
 {
     public class UIUpgradeLevel : MonoBehaviour
     {
+        [SerializeField] private Image levelImage;
+
         public void Activate()
         {
-
+            levelImage.color = Color.yellow;
         }
 
         public void Deactivate()
         {
-
+            levelImage.color = Color.black;
         }
 
         public void MaxActivate()
         {
-
+            levelImage.color = Color.green;
         }
     }
 }

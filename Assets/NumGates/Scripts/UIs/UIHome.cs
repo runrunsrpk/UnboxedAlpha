@@ -13,6 +13,7 @@ namespace NumGates
         [SerializeField] private Button optionsButton;
 
         private GameplayManager gameplayManager;
+        private UIManager uiManager;
 
         public void Show()
         {
@@ -30,16 +31,19 @@ namespace NumGates
         private void OnEnable()
         {
             startButton.onClick.AddListener(OnClickStart);
+            upgradeButton.onClick.AddListener(OnClickUpgrade);
         }
 
         private void OnDisable()
         {
             startButton.onClick.RemoveListener(OnClickStart);
+            upgradeButton.onClick.RemoveListener(OnClickUpgrade);
         }
 
         private void InitUI()
         {
             gameplayManager = GameManager.Instance.GameplayManager;
+            uiManager = GameManager.Instance.UIManager;
         }
 
         #region Button
@@ -55,7 +59,7 @@ namespace NumGates
 
         private void OnClickUpgrade()
         {
-
+            uiManager.UIUpgrade.Show();
         }
 
         private void OnClickOptions()

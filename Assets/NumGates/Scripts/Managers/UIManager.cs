@@ -9,6 +9,9 @@ namespace NumGates
         [SerializeField] private UIGameplay uiGameplay;
         public UIGameplay UIGameplay => uiGameplay;
 
+        [SerializeField] private UIUpgrade uiUpgrade;
+        public UIUpgrade UIUpgrade => uiUpgrade;
+
         [SerializeField] private UIEndgamePopup uiEndgamePopup;
         [SerializeField] private UIPausePopup uiPausePopup;
 
