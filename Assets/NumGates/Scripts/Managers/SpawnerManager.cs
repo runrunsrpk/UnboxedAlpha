@@ -5,17 +5,17 @@ using UnityEngine;
 
 namespace NumGates
 {
-    public static class SpawnType
+    public enum SpawnType
     {
-        public static readonly int PureSoul = 0;
-        public static readonly int ColorSoul = 1;
-        public static readonly int MadSoul = 2;
-        public static readonly int Crypto = 3;
-        public static readonly int Diamond = 4;
-        public static readonly int Clock = 5;
-        public static readonly int Symbol = 6;
-        public static readonly int Shield = 7;
-    }
+        PureSoul,
+        ColorSoul,
+        MadSoul,
+        Crypto,
+        //Diamond,
+        Clock,
+        Symbol,
+        Shield
+}
 
     public class SpawnerManager : MonoBehaviour
     {
@@ -221,20 +221,10 @@ namespace NumGates
         private void RandomSpawning()
         {
             int itemId = UnityEngine.Random.Range(0, spawnPrefs.Length);
-#if UNITY_STANDALONE
-            if (itemId != SpawnType.Diamond)
-            {
-                Collectable spawnedItem = Instantiate(spawnPrefs[itemId], parent.transform).GetComponent<Collectable>();
-                //GameObject spawnedItem = Instantiate(spawnPrefs[SpawnType.Symbol], parent.transform);
-                RandomSpawnPosition(spawnedItem.gameObject);
-                InitSpawnedValue(itemId, spawnedItem);
-            }
-#else
-            Collectable spawnedItem = Instantiate(spawnPrefs[itemId],parent.transform).GetComponent<Collectable>();
+            Collectable spawnedItem = Instantiate(spawnPrefs[itemId], parent.transform).GetComponent<Collectable>();
             //GameObject spawnedItem = Instantiate(spawnPrefs[SpawnType.Symbol], parent.transform);
             RandomSpawnPosition(spawnedItem.gameObject);
             InitSpawnedValue(itemId, spawnedItem);
-#endif
 
         }
 
@@ -255,15 +245,12 @@ namespace NumGates
                     collectable.InitValue(gameplayManager.GameplayData.crypto);
                     break;
                 case 4:
-                    collectable.InitValue(gameplayManager.GameplayData.diamond);
-                    break;
-                case 5:
                     collectable.InitValue(gameplayManager.GameplayData.clock);
                     break;
-                case 6:
+                case 5:
                     collectable.InitValue(0);
                     break;
-                case 7:
+                case 6:
                     collectable.InitValue(gameplayManager.GameplayData.shield);
                     break;
             }

@@ -10,7 +10,7 @@ namespace NumGates
     {
         [SerializeField] private UIGameplayText uiScore;
         [SerializeField] private UIGameplayText uiCrypto;
-        [SerializeField] private UIGameplayText uiDiamond;
+        //[SerializeField] private UIGameplayText uiDiamond;
 
         [SerializeField] private Transform highscore;
 
@@ -37,12 +37,12 @@ namespace NumGates
             uiCrypto.UpdateText(crypto);
         }
 
-        public void UpdatePopup(int score, int crypto, int diamond)
-        {
-            uiScore.UpdateText(score);
-            uiCrypto.UpdateText(crypto);
-            uiDiamond.UpdateText(diamond);
-        }
+        //public void UpdatePopup(int score, int crypto, int diamond)
+        //{
+        //    uiScore.UpdateText(score);
+        //    uiCrypto.UpdateText(crypto);
+        //    uiDiamond.UpdateText(diamond);
+        //}
 
         private void OnEnable()
         {
@@ -60,11 +60,6 @@ namespace NumGates
         {
             gameplayManager = GameManager.Instance.GameplayManager;
 
-#if UNITY_STANDALONE
-            uiDiamond.Hide();
-#else
-            uiDiamond.InitUI();
-#endif
             uiScore.InitUI();
             uiCrypto.InitUI();
         }

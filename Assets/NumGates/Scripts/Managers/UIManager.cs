@@ -114,11 +114,7 @@ namespace NumGates
             uiEndgamePopup.Show();
 
             //TODO: Save data to somewhere
-#if UNITY_STANDALONE
             uiEndgamePopup.UpdatePopup(uiGameplay.Score, uiGameplay.Crypto);
-#else
-            uiEndgamePopup.UpdatePopup(uiGameplay.Score, uiGameplay.Crypto, uiGameplay.Diamond);
-#endif
         }
 
         private void ExitGame()

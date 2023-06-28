@@ -42,13 +42,6 @@ namespace NumGates
 
             foreach(UpgradeButtonData data in buttonDatas)
             {
-
-#if UNITY_STANDALONE
-                if (data.upgradeName.Equals("Diamond"))
-                {
-                    continue;
-                }
-#endif
                 int playerUpgradeLevel = playerManager.GetUpgradeLevel(data.upgradeType);
 
                 UIUpgradeIcon uiUpgradeIcon = Instantiate(upgradeIconPref, gridParent).GetComponent<UIUpgradeIcon>();

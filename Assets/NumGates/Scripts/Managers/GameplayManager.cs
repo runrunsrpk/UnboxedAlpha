@@ -12,7 +12,7 @@ namespace NumGates
         public int pureSoul;
         public int colorSoul;
         public int crypto;
-        public int diamond;
+        //public int diamond;
         public float bonus;
         public int clock;
         public float timer;
@@ -139,7 +139,7 @@ namespace NumGates
                 pureSoul = 1,
                 colorSoul = 3,
                 crypto = 1,
-                diamond = 1,
+                //diamond = 1,
                 bonus = 10f,
                 clock = 5,
                 timer = 60f,
@@ -152,7 +152,7 @@ namespace NumGates
                 pureSoul = baseGameplayData.pureSoul + gameplayValueData.pureSoulValue[playerManager.GetUpgradeLevel(UpgradeType.PureSoul)],
                 colorSoul = baseGameplayData.colorSoul + gameplayValueData.colorSoulValue[playerManager.GetUpgradeLevel(UpgradeType.ColorSoul)],
                 crypto = baseGameplayData.crypto + gameplayValueData.cryptoValue[playerManager.GetUpgradeLevel(UpgradeType.Crypto)],
-                diamond = baseGameplayData.diamond,
+                //diamond = baseGameplayData.diamond,
                 bonus = baseGameplayData.bonus + gameplayValueData.bonusTimerValue[playerManager.GetUpgradeLevel(UpgradeType.Bonus)],
                 clock = baseGameplayData.clock + gameplayValueData.clockValue[playerManager.GetUpgradeLevel(UpgradeType.Clock)],
                 timer = baseGameplayData.timer + gameplayValueData.gameTimerValue[playerManager.GetUpgradeLevel(UpgradeType.Timer)],

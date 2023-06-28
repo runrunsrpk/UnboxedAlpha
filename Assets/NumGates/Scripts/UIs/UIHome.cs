@@ -10,7 +10,7 @@ namespace NumGates
         [Header("Text")]
         //[SerializeField] private UIGameplayText uiHighscore;
         [SerializeField] private UIGameplayText uiCrypto;
-        [SerializeField] private UIGameplayText uiDiamond;
+        //[SerializeField] private UIGameplayText uiDiamond;
 
         [Header("Button")]
         [SerializeField] private Button startButton;
@@ -53,12 +53,7 @@ namespace NumGates
             uiManager = GameManager.Instance.UIManager;
             playerManager = GameManager.Instance.PlayerManager;
 
-#if UNITY_STANDALONE
-            uiDiamond.Hide();
-#else
-            uiDiamond.Show();
-            uiDiamond.UpdateText(playerManager.GetDiamond());
-#endif
+            //uiDiamond.UpdateText(playerManager.GetDiamond());
             //uiHighscore.UpdateText(playerManager.GetHighscore());
             uiCrypto.UpdateText(playerManager.GetCrypto());
         }

@@ -12,7 +12,7 @@ namespace NumGates
         public int[] pureSoulValue;
         public int[] colorSoulValue;
         public int[] cryptoValue;
-        public int[] diamondValue;
+        //public int[] diamondValue;
         public float[] bonusTimerValue;
         public int[] clockValue;
         public float[] gameTimerValue;
