@@ -11268,67 +11268,67 @@ MonoBehaviour:
   sounds:
   - name: SFX001
     clip: {fileID: 8300000, guid: fa3011e64ff2b4d7d965fdec49ac022c, type: 3}
-    volume: 0.5
+    volume: 1
     pitch: 1
     source: {fileID: 0}
   - name: SFX002
     clip: {fileID: 8300000, guid: 811b0615c0e80438dbeacb933829e436, type: 3}
-    volume: 0.5
+    volume: 1
     pitch: 1
     source: {fileID: 0}
   - name: SFX003
     clip: {fileID: 8300000, guid: 6564ed054a9624e63bab2a3b75577f88, type: 3}
-    volume: 0.5
+    volume: 1
     pitch: 1
     source: {fileID: 0}
   - name: SFX004
     clip: {fileID: 8300000, guid: 465234928d00847debced156dee96b23, type: 3}
-    volume: 0.5
+    volume: 1
     pitch: 1
     source: {fileID: 0}
   - name: SFX005
     clip: {fileID: 8300000, guid: 331699688412646c68aa94487663fd8e, type: 3}
-    volume: 0.3
+    volume: 0.8
     pitch: 1
     source: {fileID: 0}
   - name: SFX006
     clip: {fileID: 8300000, guid: c99c9f7716cdb4196b0ec5aeb07973b4, type: 3}
-    volume: 0.5
+    volume: 1
     pitch: 1
     source: {fileID: 0}
   - name: SFX007
     clip: {fileID: 8300000, guid: 246a7511030614dc4b4fa0bea31c78d7, type: 3}
-    volume: 0.5
+    volume: 1
     pitch: 1
     source: {fileID: 0}
   - name: SFX008
     clip: {fileID: 8300000, guid: 883d0d368d71b445797894506c15c1ad, type: 3}
-    volume: 0.5
+    volume: 1
     pitch: 1
     source: {fileID: 0}
   - name: SFX009
     clip: {fileID: 8300000, guid: f8f115b5dbbef48bd8d8e3dd44589622, type: 3}
-    volume: 0.5
+    volume: 1
     pitch: 1
     source: {fileID: 0}
   - name: SFX010
     clip: {fileID: 8300000, guid: 42262edeac6844b15991883c53e1995e, type: 3}
-    volume: 0.5
+    volume: 1
     pitch: 1
     source: {fileID: 0}
   - name: SFX011
     clip: {fileID: 8300000, guid: f3bd07ce585f84f7f9bd753a5a59d02f, type: 3}
-    volume: 0.5
+    volume: 1
     pitch: 1
     source: {fileID: 0}
   - name: SFX012
     clip: {fileID: 8300000, guid: 504f7f2c9f4804dda8bc5e73a5055f8d, type: 3}
-    volume: 0.5
+    volume: 1
     pitch: 1
     source: {fileID: 0}
   - name: SFX013
     clip: {fileID: 8300000, guid: 987b6ecd3acd541188c7a72b830c65f6, type: 3}
-    volume: 0.5
+    volume: 1
     pitch: 1
     source: {fileID: 0}
 --- !u!1 &1947397471

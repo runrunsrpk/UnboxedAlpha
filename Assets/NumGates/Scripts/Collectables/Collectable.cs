@@ -19,6 +19,7 @@ namespace NumGates
 
         protected GameManager gameManager;
         protected GameplayManager gameplayManager;
+        protected AudioManager audioManager;
 
         public void InitValue(int value)
         {
@@ -28,6 +29,8 @@ namespace NumGates
         protected virtual void Start()
         {
             Init();
+
+            audioManager.PlaySound(AudioSound.ItemSpawn);
         }
 
         protected virtual void Update()
@@ -44,6 +47,7 @@ namespace NumGates
         {
             gameManager = GameManager.Instance;
             gameplayManager = gameManager.GameplayManager;
+            audioManager = gameManager.AudioManager;
 
             OnCollected += Collected;
         }
@@ -66,6 +70,10 @@ namespace NumGates
                 if(hasDamage == true && gameplayManager.IsShield == false)
                 {
                     gameplayManager.OnSoulMissed?.Invoke();
+                }
+                else
+                {
+                    audioManager.PlaySound(AudioSound.ItemDestroy);
                 }
                 Destroy(gameObject);
             }

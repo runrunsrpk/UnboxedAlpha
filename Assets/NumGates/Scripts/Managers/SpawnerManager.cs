@@ -220,8 +220,8 @@ namespace NumGates
 
         private void RandomSpawning()
         {
-            //int itemId = UnityEngine.Random.Range(0, spawnPrefs.Length);
-            int itemId = (int)SpawnType.Crypto;
+            int itemId = UnityEngine.Random.Range(0, spawnPrefs.Length);
+            //int itemId = (int)SpawnType.Crypto;
 
             Collectable spawnedItem = Instantiate(spawnPrefs[itemId], parent.transform).GetComponent<Collectable>();
             RandomSpawnPosition(spawnedItem.gameObject);

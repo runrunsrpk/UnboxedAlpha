@@ -84,6 +84,7 @@ namespace NumGates
         private GameManager gameManager;
         private SpawnerManager spawnerManager;
         private PlayerManager playerManager;
+        private AudioManager audioManager;
 
         [SerializeField] private GameplayValueData gameplayValueData;
 
@@ -130,6 +131,7 @@ namespace NumGates
             gameManager = GameManager.Instance;
             spawnerManager = gameManager.SpawnerManager;
             playerManager = gameManager.PlayerManager;
+            audioManager = gameManager.AudioManager;
         }
 
         private void InitGameplayData()
@@ -169,7 +171,9 @@ namespace NumGates
             OnExitGame += ExitGame;
 
             OnSoulCollected += SoulCollected;
+            OnSoulMissed += SoulMissed;
             OnCryptoCollected += CryptoCollected;
+            OnSymbolCollected += SymbolCollected;
             OnClockCollected += ClockCollected;
             OnShieldCollected += ShieldCollected;
             OnMadSoulCollected += MadSoulCollected;
@@ -197,7 +201,9 @@ namespace NumGates
             OnExitGame -= ExitGame;
 
             OnSoulCollected -= SoulCollected;
+            OnSoulMissed -= SoulMissed;
             OnCryptoCollected -= CryptoCollected;
+            OnSymbolCollected -= SymbolCollected;
             OnClockCollected -= ClockCollected;
             OnShieldCollected -= ShieldCollected;
             OnMadSoulCollected -= MadSoulCollected;
@@ -224,6 +230,9 @@ namespace NumGates
             InitGameplayData();
             InitVariable();
 
+            audioManager.StopMusic(AudioMusic.HomeMusic);
+            audioManager.StopMusic(AudioMusic.EndgameMusic);
+
             OnUpdateGameTimer?.Invoke(gameTimer / TIMER_MULTIPLIER, gameplayData.timer);
             OnStartCountdownTimer?.Invoke();
         }
@@ -236,6 +245,9 @@ namespace NumGates
 
         private void EndGame()
         {
+            audioManager.StopMusic(AudioMusic.GameplayMusic);
+            audioManager.PlayMusic(AudioMusic.EndgameMusic);
+
             isCountdown = false;
             isPause = false;
             isStart = false;
@@ -247,6 +259,10 @@ namespace NumGates
 
         private void ExitGame()
         {
+            audioManager.StopMusic(AudioMusic.GameplayMusic);
+            audioManager.StopMusic(AudioMusic.EndgameMusic);
+            audioManager.PlayMusic(AudioMusic.HomeMusic);
+
             isCountdown = false;
             isPause = false;
             isStart = false;
@@ -263,6 +279,8 @@ namespace NumGates
             isCountdown = true;
             countdownTimer = maxCountdownTimer * TIMER_MULTIPLIER;
             OnUpdateCountdownTimer?.Invoke(countdownTimer / TIMER_MULTIPLIER);
+
+            audioManager.PlaySound(AudioSound.Countdown);
         }
 
         private void UpdateCountdownTimer()
@@ -280,6 +298,7 @@ namespace NumGates
 
                     if (countdownTimer % TIMER_MULTIPLIER == 0)
                     {
+                        audioManager.PlaySound(AudioSound.Countdown);
                         OnUpdateCountdownTimer?.Invoke(countdownTimer / TIMER_MULTIPLIER);
                     }
                 }
@@ -303,6 +322,8 @@ namespace NumGates
             {
                 OnResumeGameTimer?.Invoke();
             }
+
+            audioManager.PlaySound(AudioSound.GameStart);
         }
 
         // Game
@@ -311,6 +332,8 @@ namespace NumGates
             isStart = true;
             gameTimer = gameplayData.timer * TIMER_MULTIPLIER;
             OnUpdateGameTimer?.Invoke(gameTimer / TIMER_MULTIPLIER, gameplayData.timer);
+
+            audioManager.PlayMusic(AudioMusic.GameplayMusic);
         }
 
         private void PauseGameTimer()
@@ -357,6 +380,9 @@ namespace NumGates
         {
             OnUpdateGameTimer?.Invoke(0f, gameplayData.timer);
             tickGameTimer = 0f;
+
+            audioManager.PlaySound(AudioSound.GameOver);
+            audioManager.StopMusic(AudioMusic.GameplayMusic);
         }
 
         // Bonus
@@ -365,6 +391,8 @@ namespace NumGates
             isBonus = true;
             bonusTimer = gameplayData.bonus * TIMER_MULTIPLIER;
             OnUpdateBonusTimer?.Invoke(bonusTimer / TIMER_MULTIPLIER, gameplayData.bonus);
+
+            audioManager.PlaySound(AudioSound.BonusActivate);
         }
 
         private void UpdateBonusTimer()
@@ -408,6 +436,8 @@ namespace NumGates
         {
             isShield = true;
             shieldTimer = gameplayData.shield * TIMER_MULTIPLIER;
+
+            audioManager.PlaySound(AudioSound.ShieldCharge);
         }
 
         private void UpdateShieldTimer()
@@ -445,11 +475,24 @@ namespace NumGates
         private void SoulCollected(int value)
         {
             score += value;
+            audioManager.PlaySound(AudioSound.NormalCollect);
+        }
+
+        private void SoulMissed()
+        {
+            audioManager.PlaySound(AudioSound.Missed);
         }
 
         private void CryptoCollected(int value)
         {
             crypto += value;
+
+            audioManager.PlaySound(AudioSound.CoinCollect);
+        }
+
+        private void SymbolCollected()
+        {
+            audioManager.PlaySound(AudioSound.NormalCollect);
         }
 
         private void ClockCollected(int value)
@@ -458,6 +501,8 @@ namespace NumGates
                 gameplayData.timer * TIMER_MULTIPLIER : gameTimer + ( value * TIMER_MULTIPLIER);
 
             OnUpdateGameTimer?.Invoke(gameTimer / TIMER_MULTIPLIER, gameplayData.timer);
+
+            audioManager.PlaySound(AudioSound.NormalCollect);
         }
 
         private void ShieldCollected()
@@ -472,7 +517,12 @@ namespace NumGates
         {
             if(isShield == false)
             {
+                audioManager.PlaySound(AudioSound.Missed);
                 OnEndGame?.Invoke();
+            }
+            else
+            {
+                audioManager.PlaySound(AudioSound.ShieldHit);
             }
         }
         #endregion

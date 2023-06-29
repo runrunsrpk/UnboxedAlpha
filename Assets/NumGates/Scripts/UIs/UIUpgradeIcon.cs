@@ -33,6 +33,7 @@ namespace NumGates
         private GameManager gameManager;
         private UIManager uiManager;
         private PlayerManager playerManager;
+        private AudioManager audioManager;
 
         private Action OnUpgradeCallback;
 
@@ -41,6 +42,8 @@ namespace NumGates
             gameManager = GameManager.Instance;
             playerManager = gameManager.PlayerManager;
             uiManager = gameManager.UIManager;
+            audioManager = gameManager.AudioManager;
+
             OnUpgradeCallback = callback;
 
             this.data = data;
@@ -71,6 +74,8 @@ namespace NumGates
                 UpdateUIUpgradeLevel();
                 OnUpgradeCallback?.Invoke();
                 uiManager.UIHome.UpdateUI();
+
+                audioManager.PlaySound(AudioSound.Upgrade);
             }
         }
 

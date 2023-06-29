@@ -14,7 +14,7 @@ namespace NumGates
         public static readonly string HomeMusic = "BGM003";
     }
 
-    public static class SoundMusic
+    public static class AudioSound
     {
         public static readonly string CoinCollect = "SFX001";
         public static readonly string ShieldHit = "SFX002";
@@ -24,7 +24,7 @@ namespace NumGates
         public static readonly string Missed = "SFX006";
         public static readonly string Upgrade = "SFX007";
         public static readonly string ItemDestroy = "SFX008";
-        public static readonly string HomeMusic = "SFX009";
+        public static readonly string ItemSpawn = "SFX009";
         public static readonly string UIClick = "SFX010";
         public static readonly string Countdown = "SFX011";
         public static readonly string GameStart = "SFX012";

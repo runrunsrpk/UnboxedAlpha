@@ -12,6 +12,7 @@ namespace NumGates
         public SpawnerManager SpawnerManager { get; private set; }
         public UIManager UIManager { get; private set; }
         public PlayerManager PlayerManager { get; private set; }
+        public AudioManager AudioManager { get; private set; }
 
         private void Awake()
         {
@@ -26,6 +27,7 @@ namespace NumGates
             SpawnerManager = GetComponentInChildren<SpawnerManager>();
             PlayerManager = GetComponentInChildren<PlayerManager>();
             UIManager = GetComponentInChildren<UIManager>();
+            AudioManager = GetComponentInChildren<AudioManager>();
         }
 
         private void Start()
@@ -41,6 +43,9 @@ namespace NumGates
             GameplayManager.Initialize();
             SpawnerManager.Initialize();
             UIManager.Initialize();
+            AudioManager.Initialize();
+
+            AudioManager.PlayMusic(AudioMusic.HomeMusic);
         }
 
         private void Terminate()
@@ -49,6 +54,7 @@ namespace NumGates
             GameplayManager.Terminate();
             SpawnerManager.Terminate();
             UIManager.Terminate();
+            AudioManager.Terminate();
         }
 
         private void CreateSave()

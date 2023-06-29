@@ -18,9 +18,11 @@ namespace NumGates
         [SerializeField] private Button upgradeButton;
         [SerializeField] private Button optionsButton;
 
+        private GameManager gameManager;
         private GameplayManager gameplayManager;
         private UIManager uiManager;
         private PlayerManager playerManager;
+        private AudioManager audioManager;
 
         public void Show()
         {
@@ -54,9 +56,12 @@ namespace NumGates
 
         private void InitUI()
         {
-            gameplayManager = GameManager.Instance.GameplayManager;
-            uiManager = GameManager.Instance.UIManager;
-            playerManager = GameManager.Instance.PlayerManager;
+            gameManager = GameManager.Instance;
+
+            gameplayManager = gameManager.GameplayManager;
+            uiManager = gameManager.UIManager;
+            playerManager = gameManager.PlayerManager;
+            audioManager = gameManager.AudioManager;
 
             //uiDiamond.UpdateText(playerManager.GetDiamond());
             //uiHighscore.UpdateText(playerManager.GetHighscore());
@@ -67,6 +72,8 @@ namespace NumGates
         private void OnClickStart()
         {
             gameplayManager.OnStartGame?.Invoke();
+
+            audioManager.PlaySound(AudioSound.UIClick);
         }
 
         private void OnClickStore()
@@ -77,6 +84,8 @@ namespace NumGates
         private void OnClickUpgrade()
         {
             uiManager.UIUpgrade.Show();
+
+            audioManager.PlaySound(AudioSound.UIClick);
         }
 
         private void OnClickOptions()
