@@ -17,8 +17,10 @@ namespace NumGates
 
         [SerializeField] private UICountdown uiCountdown;
         [SerializeField] private UIHome uiHome;
+        public UIHome UIHome => uiHome;
 
         private GameplayManager gameplayManager;
+        private PlayerManager playerManager;
 
         public void Initialize()
         {
@@ -36,6 +38,7 @@ namespace NumGates
         private void InitManager()
         {
             gameplayManager = GameManager.Instance.GameplayManager;
+            playerManager = GameManager.Instance.PlayerManager;
         }
 
         private void EnableAction()
@@ -113,25 +116,7 @@ namespace NumGates
         {
             uiEndgamePopup.Show();
             uiEndgamePopup.UpdatePopup(uiGameplay.Score, uiGameplay.Crypto);
-
-            //TODO: Save data to somewhere
-            if (PlayerPrefs.HasKey(PlayerPrefsKey.Highscore))
-            {
-                int highscore = PlayerPrefs.GetInt(PlayerPrefsKey.Highscore);
-
-                if(uiGameplay.Score > highscore)
-                {
-                    uiEndgamePopup.ShowHighScore();
-                    PlayerPrefs.SetInt(PlayerPrefsKey.Highscore, uiGameplay.Score);
-                }
-            }
-
-            if (PlayerPrefs.HasKey(PlayerPrefsKey.Crypto))
-            {
-                int playerCrypto = PlayerPrefs.GetInt(PlayerPrefsKey.Crypto) + uiGameplay.Crypto;
-
-                PlayerPrefs.SetInt(PlayerPrefsKey.Crypto, playerCrypto);
-            }
+            UpdateHighscore();
         }
 
         private void ExitGame()
@@ -140,6 +125,14 @@ namespace NumGates
             uiGameplay.Hide();
             uiEndgamePopup.Hide();
             uiPausePopup.Hide();
+        }
+
+        private void UpdateHighscore()
+        {
+            if (uiGameplay.Score > playerManager.GetHighscore())
+            {
+                uiEndgamePopup.ShowHighScore();
+            }
         }
         #endregion
 

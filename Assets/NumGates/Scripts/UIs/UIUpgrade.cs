@@ -57,7 +57,16 @@ namespace NumGates
             }
         }
 
-#region Button
+        private void UpdateAllUpgradeButtons()
+        {
+            foreach(Transform child in gridParent)
+            {
+                UIUpgradeIcon uiUpgradeIcon = child.GetComponent<UIUpgradeIcon>();
+                uiUpgradeIcon.UpdateUpgradeButton();
+            }
+        }
+
+        #region Button
         private void OnClickExit()
         {
             Hide();

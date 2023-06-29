@@ -22,24 +22,52 @@ namespace NumGates
         [SerializeField] private Transform priceText;
         [SerializeField] private Transform maxText;
 
+        [Header("Button")]
+        [SerializeField] private Button upgradeButton;
+        [SerializeField] private Image upgradeButtonImage;
+
         private UpgradeButtonData data;
         private int level;
 
+        private GameManager gameManager;
+        private UIManager uiManager;
+        private PlayerManager playerManager;
+
         public void InitUI(UpgradeButtonData data, int level)
         {
+            gameManager = GameManager.Instance;
+            playerManager = gameManager.PlayerManager;
+            uiManager = gameManager.UIManager;
+
             this.data = data;
             this.level = level;
 
-
             InitUIUpgradeIcon(data.upgradeIcon, data.upgradeName, data.upgradeDetail[GetIndexLevel()], data.upgradePrice[GetIndexLevel()]);
             InitUIUpgradeLevel();
+        }
+
+        private void OnEnable()
+        {
+            upgradeButton.onClick.AddListener(OnClickUpgrade);
+        }
+
+        private void OnDisable()
+        {
+            upgradeButton.onClick.RemoveListener(OnClickUpgrade);
         }
 
         private void OnClickUpgrade()
         {
             if(!IsMaxLevel())
             {
+                SaveData();
+                IncreaseUpgradeLevel();
 
+                UpdateUIUpgradeIcon(data.upgradeDetail[GetIndexLevel()], data.upgradePrice[GetIndexLevel()]);
+                UpdateUIUpgradeLevel();
+                //UpdateUpgradeButton();
+
+                uiManager.UIHome.UpdateUI();
             }
         }
 
@@ -50,6 +78,24 @@ namespace NumGates
             upgradeDetailText.text = detail;
 
             if(!IsMaxLevel())
+            {
+                upgradePriceText.text = price.ToString();
+            }
+            else
+            {
+                priceIcon.gameObject.SetActive(false);
+                priceText.gameObject.SetActive(false);
+                maxText.gameObject.SetActive(true);
+            }
+
+            UpdateUpgradeButton();
+        }
+
+        private void UpdateUIUpgradeIcon(string detail, int price)
+        {
+            upgradeDetailText.text = detail;
+
+            if (!IsMaxLevel())
             {
                 upgradePriceText.text = price.ToString();
             }
@@ -82,23 +128,99 @@ namespace NumGates
                 {
                     uiUpgradeLevel.MaxActivate();
                 }
-
             }
         }
 
-        private void UpdateUpgradeButton()
+        private void UpdateUIUpgradeLevel()
         {
+            for (int i = 0; i < data.maxUpgradeLevel; i++)
+            {
+                UIUpgradeLevel uiUpgradeLevel = upgradeLevelParent.GetChild(i).GetComponent<UIUpgradeLevel>();
 
+                if (!IsMaxLevel())
+                {
+                    if (i < level)
+                    {
+                        uiUpgradeLevel.Activate();
+                    }
+                    else
+                    {
+                        uiUpgradeLevel.Deactivate();
+                    }
+                }
+                else
+                {
+                    uiUpgradeLevel.MaxActivate();
+                }
+            }
         }
 
+        private void IncreaseUpgradeLevel()
+        {
+            level = (level + 1 < data.maxUpgradeLevel) ? level + 1 : data.maxUpgradeLevel;
+        }        
+
+        public void UpdateUpgradeButton()
+        {
+            if(!IsMaxLevel())
+            {
+                if (IsAllowedUpgrade())
+                {
+                    EnableButton();
+                }
+                else
+                {
+                    DisableButton();
+                }
+            }
+            else
+            {
+                DisableMaxButton();
+            }
+        }
+
+        #region Button
+        private void EnableButton()
+        {
+            upgradeButton.interactable = true;
+            upgradeButtonImage.color = Color.yellow;
+        }
+
+        private void DisableButton()
+        {
+            upgradeButton.interactable = false;
+            upgradeButtonImage.color = Color.gray;
+        }
+
+        private void DisableMaxButton()
+        {
+            upgradeButton.interactable = false;
+            upgradeButtonImage.color = Color.green;
+        }
+        #endregion
+
+        #region Helper
         private bool IsMaxLevel()
         {
             return level == data.maxUpgradeLevel;
         }
 
+        private bool IsAllowedUpgrade()
+        {
+            return playerManager.GetCrypto() >= data.upgradePrice[GetIndexLevel()];
+        }
+
         private int GetIndexLevel()
         {
             return IsMaxLevel() ? level - 1 : level;
+        }
+        #endregion
+
+        private void SaveData()
+        {
+            int playerCrypto = playerManager.GetCrypto() - data.upgradePrice[GetIndexLevel()];
+
+            playerManager.SetCrypto(playerCrypto);
         }
     }
 }

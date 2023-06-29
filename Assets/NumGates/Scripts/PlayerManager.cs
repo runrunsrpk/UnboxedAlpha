@@ -109,7 +109,7 @@ namespace NumGates
 
         }
 
-        #region Get
+        #region Get / Set
         public int GetHighscore()
         {
             if (PlayerPrefs.HasKey(PlayerPrefsKey.Highscore))
@@ -120,6 +120,14 @@ namespace NumGates
             return playerData.highscore;
         }
 
+        public void SetHighScore(int value)
+        {
+            if (PlayerPrefs.HasKey(PlayerPrefsKey.Highscore))
+            {
+               PlayerPrefs.SetInt(PlayerPrefsKey.Highscore, value);
+            }
+        }
+
         public int GetCrypto()
         {
             if (PlayerPrefs.HasKey(PlayerPrefsKey.Crypto))
@@ -128,6 +136,11 @@ namespace NumGates
             }
 
             return playerData.crypto;
+        }
+
+        public void SetCrypto(int value)
+        {
+            PlayerPrefs.SetInt(PlayerPrefsKey.Crypto, value);
         }
 
         //public int GetDiamond()
@@ -148,6 +161,11 @@ namespace NumGates
             }
 
             return playerData.updradeLevels[(int)type];
+        }
+
+        public void SetUpgradeLevel(string value)
+        {
+            PlayerPrefs.SetString(PlayerPrefsKey.Upgrades, value);
         }
         #endregion
     }

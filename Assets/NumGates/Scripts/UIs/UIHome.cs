@@ -35,6 +35,11 @@ namespace NumGates
 
         }
 
+        public void UpdateUI()
+        {
+            uiCrypto.UpdateText(playerManager.GetCrypto());
+        }
+
         private void OnEnable()
         {
             startButton.onClick.AddListener(OnClickStart);

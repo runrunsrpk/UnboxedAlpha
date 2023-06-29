@@ -91,6 +91,9 @@ namespace NumGates
         private GameplayData gameplayData;
         public GameplayData GameplayData => gameplayData;
 
+        private int score;
+        private int crypto;
+
         private void Update()
         {
             UpdateCountdownTimer();
@@ -113,11 +116,10 @@ namespace NumGates
 
         private void InitVariable()
         {
-            countdownTimer = maxCountdownTimer * TIMER_MULTIPLIER;
-            //gameTimer = maxGameTimer * TIMER_MULTIPLIER;
-            //bonusTimer = maxBonusTimer * TIMER_MULTIPLIER;
-            //shieldTimer = maxShieldTimer * TIMER_MULTIPLIER;
+            score = 0;
+            crypto = 0;
 
+            countdownTimer = maxCountdownTimer * TIMER_MULTIPLIER;
             gameTimer = gameplayData.timer * TIMER_MULTIPLIER;
             bonusTimer = gameplayData.bonus * TIMER_MULTIPLIER;
             shieldTimer = gameplayData.shield * TIMER_MULTIPLIER;
@@ -166,6 +168,8 @@ namespace NumGates
             OnEndGame += EndGame;
             OnExitGame += ExitGame;
 
+            OnSoulCollected += SoulCollected;
+            OnCryptoCollected += CryptoCollected;
             OnClockCollected += ClockCollected;
             OnShieldCollected += ShieldCollected;
             OnMadSoulCollected += MadSoulCollected;
@@ -192,6 +196,8 @@ namespace NumGates
             OnEndGame -= EndGame;
             OnExitGame -= ExitGame;
 
+            OnSoulCollected -= SoulCollected;
+            OnCryptoCollected -= CryptoCollected;
             OnClockCollected -= ClockCollected;
             OnShieldCollected -= ShieldCollected;
             OnMadSoulCollected -= MadSoulCollected;
@@ -235,6 +241,8 @@ namespace NumGates
             isStart = false;
             isBonus = false;
             isShield = false;
+
+            SaveData();
         }
 
         private void ExitGame()
@@ -244,6 +252,8 @@ namespace NumGates
             isStart = false;
             isBonus = false;
             isShield = false;
+
+            SaveData();
         }
         #endregion
 
@@ -431,7 +441,17 @@ namespace NumGates
         }
         #endregion
 
-        #region Action Collect
+        #region Action
+        private void SoulCollected(int value)
+        {
+            score += value;
+        }
+
+        private void CryptoCollected(int value)
+        {
+            crypto += value;
+        }
+
         private void ClockCollected(int value)
         {
             gameTimer = ((gameTimer / TIMER_MULTIPLIER) + value > gameplayData.timer) ?
@@ -456,6 +476,18 @@ namespace NumGates
             }
         }
         #endregion
+
+        private void SaveData()
+        {
+            if (score > playerManager.GetHighscore())
+            {
+                PlayerPrefs.SetInt(PlayerPrefsKey.Highscore, score);
+                playerManager.SetHighScore(score);
+            }
+
+            int playerCrypto = playerManager.GetCrypto() + crypto;
+            playerManager.SetCrypto(playerCrypto);
+        }
     }
 }
 
