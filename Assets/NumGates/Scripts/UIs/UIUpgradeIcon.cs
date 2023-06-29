@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -33,11 +34,14 @@ namespace NumGates
         private UIManager uiManager;
         private PlayerManager playerManager;
 
-        public void InitUI(UpgradeButtonData data, int level)
+        private Action OnUpgradeCallback;
+
+        public void InitUI(UpgradeButtonData data, int level, Action callback)
         {
             gameManager = GameManager.Instance;
             playerManager = gameManager.PlayerManager;
             uiManager = gameManager.UIManager;
+            OnUpgradeCallback = callback;
 
             this.data = data;
             this.level = level;
@@ -60,13 +64,12 @@ namespace NumGates
         {
             if(!IsMaxLevel())
             {
-                SaveData();
                 IncreaseUpgradeLevel();
+                SaveData();
 
                 UpdateUIUpgradeIcon(data.upgradeDetail[GetIndexLevel()], data.upgradePrice[GetIndexLevel()]);
                 UpdateUIUpgradeLevel();
-                //UpdateUpgradeButton();
-
+                OnUpgradeCallback?.Invoke();
                 uiManager.UIHome.UpdateUI();
             }
         }
@@ -214,13 +217,19 @@ namespace NumGates
         {
             return IsMaxLevel() ? level - 1 : level;
         }
+
+        private int GetLastedLevel()
+        {
+            return (level - 1 < 0) ? 0 : level - 1;
+        }
         #endregion
 
         private void SaveData()
         {
-            int playerCrypto = playerManager.GetCrypto() - data.upgradePrice[GetIndexLevel()];
+            int playerCrypto = playerManager.GetCrypto() - data.upgradePrice[GetLastedLevel()];
 
             playerManager.SetCrypto(playerCrypto);
+            playerManager.SetUpgradeLevel(data.upgradeType, level);
         }
     }
 }

@@ -163,10 +163,31 @@ namespace NumGates
             return playerData.updradeLevels[(int)type];
         }
 
-        public void SetUpgradeLevel(string value)
+
+        public void SetUpgradeLevel(UpgradeType type, int value)
         {
+            string[] upgradeLevels = PlayerPrefs.GetString(PlayerPrefsKey.Upgrades).Split('/');
+            string tempSave = "";
+
+            for (int i = 0; i < upgradeLevels.Length; i++)
+            {
+                if (i == (int)type)
+                {
+                    playerData.updradeLevels[i] = value;
+                }
+
+                tempSave += (i + 1 < upgradeLevels.Length) ? $"{playerData.updradeLevels[i]}/" : $"{playerData.updradeLevels[i]}";
+            }
+
+            SetUpgradeLevel(tempSave);
+        }
+
+        private void SetUpgradeLevel(string value)
+        {
+            Debug.Log($"Save: {value}");
             PlayerPrefs.SetString(PlayerPrefsKey.Upgrades, value);
         }
+
         #endregion
     }
 }

@@ -45,7 +45,7 @@ namespace NumGates
                 int playerUpgradeLevel = playerManager.GetUpgradeLevel(data.upgradeType);
 
                 UIUpgradeIcon uiUpgradeIcon = Instantiate(upgradeIconPref, gridParent).GetComponent<UIUpgradeIcon>();
-                uiUpgradeIcon.InitUI(data, playerUpgradeLevel);
+                uiUpgradeIcon.InitUI(data, playerUpgradeLevel, UpdateAllUpgradeButtons);
             }
         }
 
