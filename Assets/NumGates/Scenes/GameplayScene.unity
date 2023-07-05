@@ -480,20 +480,17 @@ MonoBehaviour:
   - {fileID: 2430662435130964691, guid: 026844a35285c4a18acea90de5eb7f5b, type: 3}
   - {fileID: 2430662435130964691, guid: d63cd4c4db92940c7a88999d9c25c799, type: 3}
   waveTimer: 0
-  minSpawning: 0
-  maxSpawning: 0
+  minSpawning: 1
+  maxSpawning: 1
   spawningLevel: 0
   baseSpawningSpeed: 1
   bonusSpawningSpeed: 0.5
   spawningSpeed: 1
   spawningDelaySpeed: 0
-  baseColorSoulRate: 0
-  baseCrpytoRate: 0
-  baseDiamondlRate: 0
-  baseClockRate: 0
-  baseSymbolRate: 0
-  baseShieldRate: 0
-  baseItemRate: 0
+  spawningSoulRate: 0.7
+  spawningColorSoulRate: 0.3
+  spawningMadSoulRate: 0.1
+  itemAmount: 4
 --- !u!4 &63369105
 Transform:
   m_ObjectHideFlags: 0

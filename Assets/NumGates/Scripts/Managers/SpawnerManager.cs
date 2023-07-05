@@ -40,21 +40,12 @@ namespace NumGates
         private const float TIMER_MULTIPLIER = 10f; // covert millisec to second
 
         [Header("Spawning Rate")]
-        [SerializeField] private float baseColorSoulRate;
-        [SerializeField] private float baseCrpytoRate;
-        [SerializeField] private float baseDiamondlRate;
-        [SerializeField] private float baseClockRate;
-        [SerializeField] private float baseSymbolRate;
-        [SerializeField] private float baseShieldRate;
-        [SerializeField] private float baseItemRate;
+        [Range(0f, 1f)] [SerializeField] private float spawningSoulRate;
+        [Range(0f, 1f)] [SerializeField] private float spawningColorSoulRate;
+        [Range(0f, 1f)] [SerializeField] private float spawningMadSoulRate;
 
-        private float currentColorSoulRate;
-        private float currentCrpytoRate;
-        private float currentDiamondlRate;
-        private float currentClockRate;
-        private float currentSymbolRate;
-        private float currentShieldRate;
-        private float currentItemRate;
+        [Header("Item Amount")]
+        [SerializeField] private int itemAmount;
 
         private GameManager gameManager;
         private UIManager uiManager;
@@ -121,7 +112,8 @@ namespace NumGates
             }
             else
             {
-                RandomSpawning();
+                //RandomSpawning();
+                StartCoroutine(Spawning());
                 waveTimer = spawningSpeed;
             }
         }
@@ -207,51 +199,73 @@ namespace NumGates
         #endregion
 
         #region Random
-        private void InitRate()
+        private float RandomPercentValue()
         {
-            currentColorSoulRate = baseColorSoulRate;
-            currentCrpytoRate = baseCrpytoRate;
-            currentDiamondlRate = baseDiamondlRate;
-            currentClockRate = baseClockRate;
-            currentSymbolRate = baseSymbolRate;
-            currentShieldRate = baseShieldRate;
-            currentItemRate = baseItemRate;
+            return UnityEngine.Random.Range(0f, 1f);
         }
 
-        private void RandomSpawning()
-        {
-            int itemId = UnityEngine.Random.Range(0, spawnPrefs.Length);
-            //int itemId = (int)SpawnType.Crypto;
+        //private void RandomSpawning()
+        //{
+            //int itemId = UnityEngine.Random.Range(0, spawnPrefs.Length);
+            ////int itemId = (int)SpawnType.Crypto;
 
-            Collectable spawnedItem = Instantiate(spawnPrefs[itemId], parent.transform).GetComponent<Collectable>();
+            //Collectable spawnedItem = Instantiate(spawnPrefs[itemId], parent.transform).GetComponent<Collectable>();
+            //RandomSpawnPosition(spawnedItem.gameObject);
+            //InitSpawnedValue(itemId, spawnedItem);
+        //}
+
+        private void SpawnItem(SpawnType type)
+        {
+            Collectable spawnedItem = Instantiate(spawnPrefs[(int)type], parent.transform).GetComponent<Collectable>();
             RandomSpawnPosition(spawnedItem.gameObject);
-            InitSpawnedValue(itemId, spawnedItem);
-
+            InitSpawnedValue(type, spawnedItem);
         }
 
-        private void InitSpawnedValue(int id, Collectable collectable)
+        private IEnumerator Spawning()
         {
-            switch (id)
+            int spawningAmount = UnityEngine.Random.Range(minSpawning, maxSpawning);
+            float spawningDelay = ( spawningSpeed / 2 ) / spawningAmount;
+
+            for (int i = 0; i < spawningAmount; i++)
             {
-                case 0:
+                float randomValue = RandomPercentValue();
+
+                if (randomValue <= spawningSoulRate)
+                {
+                    SpawnSoul();
+                }
+                else
+                {
+                    SpawnItem();
+                }
+
+                yield return new WaitForSecondsRealtime(spawningDelay);
+            }
+        }
+
+        private void InitSpawnedValue(SpawnType type, Collectable collectable)
+        {
+            switch (type)
+            {
+                case SpawnType.PureSoul:
                     collectable.InitValue(gameplayManager.GameplayData.pureSoul);
                     break;
-                case 1:
+                case SpawnType.ColorSoul:
                     collectable.InitValue(gameplayManager.GameplayData.colorSoul);
                     break;
-                case 2:
+                case SpawnType.MadSoul:
                     collectable.InitValue(0);
                     break;
-                case 3:
+                case SpawnType.Crypto:
                     collectable.InitValue(gameplayManager.GameplayData.crypto);
                     break;
-                case 4:
+                case SpawnType.Clock:
                     collectable.InitValue(gameplayManager.GameplayData.clock);
                     break;
-                case 5:
+                case SpawnType.Symbol:
                     collectable.InitValue(0);
                     break;
-                case 6:
+                case SpawnType.Shield:
                     collectable.InitValue(gameplayManager.GameplayData.shield);
                     break;
             }
@@ -259,12 +273,49 @@ namespace NumGates
 
         private void SpawnSoul()
         {
+            float randomValue = RandomPercentValue();
 
+            if(!gameplayManager.IsBonus)
+            {
+                if (randomValue <= spawningMadSoulRate)
+                {
+                    SpawnItem(SpawnType.MadSoul);
+                }
+                else if (randomValue > spawningMadSoulRate && randomValue <= spawningMadSoulRate + spawningColorSoulRate)
+                {
+                    SpawnItem(SpawnType.ColorSoul);
+                }
+                else
+                {
+                    SpawnItem(SpawnType.PureSoul);
+                }
+            }
+            else
+            {
+                if(randomValue <= spawningColorSoulRate)
+                {
+                    SpawnItem(SpawnType.ColorSoul);
+                }
+                else
+                {
+                    SpawnItem(SpawnType.PureSoul);
+                }
+            }
         }
 
         private void SpawnItem()
         {
+            float randomValue = RandomPercentValue();
+            float sectionValue = 1f / itemAmount;
 
+            if(!gameplayManager.IsBonus)
+            {
+                // Spawn 4 items
+            }
+            else
+            {
+                // Spawn 3 items
+            }
         }
         #endregion
     }
