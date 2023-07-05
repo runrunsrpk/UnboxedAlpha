@@ -10,15 +10,18 @@ namespace NumGates
         [SerializeField] private Transform shieldGroup;
 
         private int health;
-        private int maxHealth = 4;
+        private int maxHealth;
 
+        private GameManager gameManager;
         private GameplayManager gameplayManager;
 
         public void InitUI()
         {
-            gameplayManager = GameManager.Instance.GameplayManager;
+            gameManager = GameManager.Instance;
+            gameplayManager = gameManager.GameplayManager;
 
-            health = maxHealth;
+            maxHealth = gameplayManager.GameplayData.health;
+            health = gameplayManager.GameplayData.health;
 
             foreach(Transform child in healthGroup)
             {
@@ -31,6 +34,8 @@ namespace NumGates
                 child.SetActive(true);
                 child.GetComponent<UIHealthIcon>().Init();
             }
+
+            DisableShield();
         }
 
         public void Damaged()
@@ -45,7 +50,7 @@ namespace NumGates
             }
             else
             {
-                gameplayManager.OnEndGameTimer?.Invoke();
+                gameplayManager.OnEndGame?.Invoke();
             }
         }
 

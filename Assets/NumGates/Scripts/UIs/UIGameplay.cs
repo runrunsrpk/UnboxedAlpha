@@ -8,6 +8,10 @@ namespace NumGates
 {
     public class UIGameplay : MonoBehaviour
     {
+        public int Score => uiScore.GetTextValue();
+        public int Crypto => uiCrypto.GetTextValue();
+        public int Diamond => uiDiamond.GetTextValue();
+
         [Header("UI Outer Frames")]
         [SerializeField] private Transform leftFrame;
         public Transform LeftFrame => leftFrame;
@@ -43,31 +47,37 @@ namespace NumGates
         private GameplayManager gameplayManager;
 
         #region Initialize
-        public void Initialize()
+        public void Show()
         {
-            InitManager();
+            gameObject.SetActive(true);
+
             InitUI();
-
-            EnableAction();
         }
 
-        public void Terminate()
+        public void Hide()
         {
-            DisableAction();
+            gameObject.SetActive(false);
         }
 
-        private void InitManager()
+        private void OnEnable()
         {
-            gameManager = GameManager.Instance;
-            gameplayManager = gameManager.GameplayManager;
+            pauseButton.onClick.AddListener(OnClickPause);
+        }
+
+        private void OnDisable()
+        {
+            pauseButton.onClick.RemoveListener(OnClickPause);
         }
 
         private void InitUI()
         {
-#if UNITY_STANDALONE
+            gameManager = GameManager.Instance;
+            gameplayManager = gameManager.GameplayManager;
 
-            uiDiamond.InitUI();
+#if UNITY_STANDALONE
             uiDiamond.Hide();
+#else
+            uiDiamond.InitUI();
 #endif
             uiUnboxed.InitUI();
             uiHealth.InitUI();
@@ -75,101 +85,81 @@ namespace NumGates
             uiScore.InitUI();
             uiTimer.InitUI();
         }
-        
-        private void EnableAction()
-        {
-            gameplayManager.OnSoulCollected += SoulCollected;
-            gameplayManager.OnCryptoCollected += CryptoCollected;
-            gameplayManager.OnDiamondCollected += DiamondCollected;
-            gameplayManager.OnSymbolCollected += SymbolCollected;
-            gameplayManager.OnSoulMissed += SoulMissed;
-
-            gameplayManager.OnUpdateGameTimer += UpdateGameTimer;
-
-            gameplayManager.OnStartBonusTimer += StartBonusTimer;
-            gameplayManager.OnUpdateBonusTimer += UpdateBonusTimer;
-            gameplayManager.OnEndBonusTimer += EndBonusTimer;
-
-            gameplayManager.OnStartShieldTimer += StartShieldTimer;
-            gameplayManager.OnEndShieldTimer += EndShieldTimer;
-        }
-
-        private void DisableAction()
-        {
-
-        }
         #endregion
 
         #region Action Collect
-        private void SoulCollected(int value)
+        public void SoulCollected(int value)
         {
             uiScore.UpdateTextValue(value);
         }
 
-        private void CryptoCollected(int value)
+        public void CryptoCollected(int value)
         {
             uiCrypto.UpdateTextValue(value);
         }
 
-        private void DiamondCollected(int value)
+        public void DiamondCollected(int value)
         {
             uiDiamond.UpdateTextValue(value);
         }
 
-        private void SymbolCollected()
+        public void SymbolCollected()
         {
             uiUnboxed.AddSymbol();
         }
 
-        private void SoulMissed()
+        public void SoulMissed()
         {
-            if(gameplayManager.IsShield == false)
-            {
-                uiHealth.Damaged();
-            }
+            uiHealth.Damaged();
         }
         #endregion
 
         #region Action Timer
         // Timer
-        private void UpdateGameTimer(float timer, float maxTimer)
+        public void UpdateGameTimer(float timer, float maxTimer)
         {
             uiTimer.UpdateTimerText(timer);
             uiTimer.UpdateTimer(timer, maxTimer);
         }
 
-        private void EndGameTimer()
+        public void EndGameTimer()
         {
             //TODO: close bg
         }
 
         // Bonus
-        private void StartBonusTimer()
+        public void StartBonusTimer()
         {
-            uiUnboxed.ActivateBonus();
+            uiUnboxed.EnableBonus();
         }
 
-        private void UpdateBonusTimer(float timer, float maxTimer)
+        public void UpdateBonusTimer(float timer, float maxTimer)
         {
             uiUnboxed.UpdateBonus(timer, maxTimer);
         }
 
-        private void EndBonusTimer()
+        public void EndBonusTimer()
         {
-            uiUnboxed.DeactivateBonus();
+            uiUnboxed.DisableBonus();
         }
 
         // Shield
-        private void StartShieldTimer()
+        public void StartShieldTimer()
         {
             uiHealth.EnableShield();
         }
 
-        private void EndShieldTimer()
+        public void EndShieldTimer()
         {
             uiHealth.DisableShield();
         }
         #endregion
+
+        #region Button
+        private void OnClickPause()
+        {
+            gameplayManager.OnPauseGameTimer?.Invoke();
+        }
+        #endregion
     }
 }
-

@@ -26,6 +26,11 @@ namespace NumGates
             textMesh.text = (currentValue + value).ToString();
         }
 
+        public int GetTextValue()
+        {
+            return int.Parse(textMesh.text);
+        }
+
         public void Show()
         {
             gameObject.SetActive(true);

@@ -13,7 +13,8 @@ namespace NumGates
 
         public void InitUI()
         {
-            UpdateTimerText(60);
+            //TODO: Set timer from player manager
+            //UpdateTimerText(60);
         }
 
         public void UpdateTimerText(float value)

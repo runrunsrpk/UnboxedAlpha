@@ -72,7 +72,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: d6cf6785158a84954aade5d98d81d794, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -133,6 +133,9 @@ MonoBehaviour:
   spriteRenderer: {fileID: 0}
   boxCollider: {fileID: 8276860120190484994}
   value: 1
+  hasLifeTime: 0
+  hasDamage: 0
+  lifeTime: 0
 --- !u!1 &5180794448459414117
 GameObject:
   m_ObjectHideFlags: 0

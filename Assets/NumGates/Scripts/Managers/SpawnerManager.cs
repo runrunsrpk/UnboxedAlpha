@@ -5,17 +5,17 @@ using UnityEngine;
 
 namespace NumGates
 {
-    public static class SpawnType
+    public enum SpawnType
     {
-        public static readonly int PureSoul = 0;
-        public static readonly int ColorSoul = 1;
-        public static readonly int MadSoul = 2;
-        public static readonly int Crypto = 3;
-        public static readonly int Diamond = 4;
-        public static readonly int Clock = 5;
-        public static readonly int Symbol = 6;
-        public static readonly int Shield = 7;
-    }
+        PureSoul,
+        ColorSoul,
+        MadSoul,
+        Crypto,
+        //Diamond,
+        Clock,
+        Symbol,
+        Shield
+}
 
     public class SpawnerManager : MonoBehaviour
     {
@@ -56,16 +56,15 @@ namespace NumGates
         private float currentShieldRate;
         private float currentItemRate;
 
-        [Header("Manager")]
         private GameManager gameManager;
         private UIManager uiManager;
         private GameplayManager gameplayManager;
 
+        private GameObject parent;
+
         public void Initialize()
         {
             InitManager();
-            InitVariable();
-
             EnableAction();
         }
 
@@ -76,6 +75,8 @@ namespace NumGates
 
         private void InitVariable()
         {
+            parent = new GameObject("SpawnerParent");
+
             spawningSpeed = baseSpawningSpeed * TIMER_MULTIPLIER;
             waveTimer = baseSpawningSpeed * TIMER_MULTIPLIER;
         }
@@ -92,6 +93,10 @@ namespace NumGates
         {
             OnUpdateWaveTimer += UpdateWaveTimer;
 
+            gameplayManager.OnStartGame += StartGame;
+            gameplayManager.OnRestartGame += RestartGame;
+            gameplayManager.OnExitGame += ExitGame;
+
             gameplayManager.OnStartBonusTimer += StartBonusTimer;
             gameplayManager.OnEndBonusTimer += EndBonusTimer;
         }
@@ -99,6 +104,10 @@ namespace NumGates
         private void DisableAction()
         {
             OnUpdateWaveTimer -= UpdateWaveTimer;
+
+            gameplayManager.OnStartGame -= StartGame;
+            gameplayManager.OnRestartGame -= RestartGame;
+            gameplayManager.OnExitGame -= ExitGame;
 
             gameplayManager.OnStartBonusTimer -= StartBonusTimer;
             gameplayManager.OnEndBonusTimer -= EndBonusTimer;
@@ -167,7 +176,25 @@ namespace NumGates
             spawnedItem.transform.position = randomPosition;
         }
 
-        #region Timer Action
+        #region Action Game
+        private void StartGame()
+        {
+            InitVariable();
+        }
+
+        private void RestartGame()
+        {
+            Destroy(parent);
+            StartGame();
+        }
+
+        private void ExitGame()
+        {
+            Destroy(parent);
+        }
+        #endregion
+
+        #region Action Timer
         private void StartBonusTimer()
         {
             spawningSpeed = bonusSpawningSpeed * TIMER_MULTIPLIER;
@@ -194,9 +221,40 @@ namespace NumGates
         private void RandomSpawning()
         {
             int itemId = UnityEngine.Random.Range(0, spawnPrefs.Length);
-            //GameObject spawnedItem = Instantiate(spawnPrefs[itemId]);
-            GameObject spawnedItem = Instantiate(spawnPrefs[SpawnType.Clock]);
-            RandomSpawnPosition(spawnedItem);
+            //int itemId = (int)SpawnType.Crypto;
+
+            Collectable spawnedItem = Instantiate(spawnPrefs[itemId], parent.transform).GetComponent<Collectable>();
+            RandomSpawnPosition(spawnedItem.gameObject);
+            InitSpawnedValue(itemId, spawnedItem);
+
+        }
+
+        private void InitSpawnedValue(int id, Collectable collectable)
+        {
+            switch (id)
+            {
+                case 0:
+                    collectable.InitValue(gameplayManager.GameplayData.pureSoul);
+                    break;
+                case 1:
+                    collectable.InitValue(gameplayManager.GameplayData.colorSoul);
+                    break;
+                case 2:
+                    collectable.InitValue(0);
+                    break;
+                case 3:
+                    collectable.InitValue(gameplayManager.GameplayData.crypto);
+                    break;
+                case 4:
+                    collectable.InitValue(gameplayManager.GameplayData.clock);
+                    break;
+                case 5:
+                    collectable.InitValue(0);
+                    break;
+                case 6:
+                    collectable.InitValue(gameplayManager.GameplayData.shield);
+                    break;
+            }
         }
 
         private void SpawnSoul()

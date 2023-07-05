@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc0d8f4cb2e1949998b25bb4146e8c03, type: 3}
+  m_Name: UBD006_Diamond
+  m_EditorClassIdentifier: 
+  upgradeIcon: {fileID: 0}
+  upgradeName: Diamond
+  upgradeType: 5
+  maxUpgradeLevel: 4
+  upgradeDetail:
+  - Chance +5%
+  - Chance +10%
+  - Chance +15%
+  - Chance +20%
+  upgradePrice: f4010000c409000050c3000090d00300
