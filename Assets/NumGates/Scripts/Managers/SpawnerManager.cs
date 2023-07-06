@@ -53,6 +53,10 @@ namespace NumGates
 
         private GameObject parent;
 
+        // Order in layer
+        private int maxLayer = 900;
+        private int layer = 0;
+
         public void Initialize()
         {
             InitManager();
@@ -162,8 +166,8 @@ namespace NumGates
 
             Vector3 randomPosition = camera.ScreenToWorldPoint(new Vector3(randomWidth, randomHeight, 0f));
 
-            randomPosition.y = randomPosition.y * -1;
-            randomPosition.z = 0f;
+            randomPosition.y = GetReverseValue(randomPosition.y);
+            randomPosition.z = GetLayerOrder();
 
             spawnedItem.transform.position = randomPosition;
         }
@@ -306,6 +310,19 @@ namespace NumGates
             };
 
             return type;
+        }
+        #endregion
+
+        #region 
+        private float GetReverseValue(float value)
+        {
+            return -value;
+        }
+
+        private int GetLayerOrder()
+        {
+            layer = (layer + 2 < maxLayer) ? layer + 2 : maxLayer ;
+            return layer;
         }
         #endregion
     }

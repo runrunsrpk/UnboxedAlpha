@@ -129,7 +129,7 @@ namespace NumGates
 
         private void UpdateHighscore()
         {
-            if (uiGameplay.Score > playerManager.GetHighscore())
+            if (gameplayManager.IsHighscore)
             {
                 uiEndgamePopup.ShowHighScore();
             }

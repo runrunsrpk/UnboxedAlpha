@@ -92,6 +92,7 @@ namespace NumGates
         private GameplayData gameplayData;
         public GameplayData GameplayData => gameplayData;
 
+        public bool IsHighscore { get; private set; }
         private int score;
         private int crypto;
 
@@ -117,6 +118,7 @@ namespace NumGates
 
         private void InitVariable()
         {
+            IsHighscore = false;
             score = 0;
             crypto = 0;
 
@@ -531,7 +533,7 @@ namespace NumGates
         {
             if (score > playerManager.GetHighscore())
             {
-                PlayerPrefs.SetInt(PlayerPrefsKey.Highscore, score);
+                IsHighscore = true;
                 playerManager.SetHighScore(score);
             }
 
