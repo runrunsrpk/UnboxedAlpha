@@ -482,15 +482,25 @@ MonoBehaviour:
   waveTimer: 0
   minSpawning: 1
   maxSpawning: 2
-  spawningLevel: 0
   baseSpawningSpeed: 1
-  bonusSpawningSpeed: 0.5
+  baseBonusSpawningSpeed: 0
   spawningSpeed: 1
-  spawningDelaySpeed: 0
   spawningSoulRate: 0.7
   spawningColorSoulRate: 0.3
   spawningMadSoulRate: 0.1
   itemAmount: 4
+  levelDatas:
+  - {fileID: 11400000, guid: a854d526404076541a07cf936f2d95e4, type: 2}
+  - {fileID: 11400000, guid: 3bf4f94e2b9e0c34a8244db2fd0e2d4d, type: 2}
+  - {fileID: 11400000, guid: e1308e63fcc75d54ebf9cba5ec9eefc3, type: 2}
+  - {fileID: 11400000, guid: 2b31585fac6faed4fae744e63d1cd759, type: 2}
+  - {fileID: 11400000, guid: 751b18deea3777145b9d91eb8d55afed, type: 2}
+  - {fileID: 11400000, guid: 9ca142fa0ea134340b7f7e9eeda8e15e, type: 2}
+  - {fileID: 11400000, guid: b744bbe22990c804d8f1ecb531e27ee6, type: 2}
+  - {fileID: 11400000, guid: bb1059e92ed62e64598ef34e00f9b83b, type: 2}
+  - {fileID: 11400000, guid: f8e34ec48a1f85f49a051d3ba15f4a98, type: 2}
+  - {fileID: 11400000, guid: cdc218129c9e50b44baa67e6ceee0576, type: 2}
+  levelDivider: 5
 --- !u!4 &63369105
 Transform:
   m_ObjectHideFlags: 0

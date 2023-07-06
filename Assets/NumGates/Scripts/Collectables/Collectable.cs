@@ -5,6 +5,14 @@ using UnityEngine;
 
 namespace NumGates
 {
+    public class CollectableData
+    {
+        public int value;
+        public bool hasLifeTime;
+        public float lifetime;
+        public bool hasDamage;
+    }
+
     public class Collectable : MonoBehaviour
     {
         public Action OnCollected;

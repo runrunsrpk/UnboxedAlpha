@@ -135,7 +135,7 @@ MonoBehaviour:
   value: 0
   hasLifeTime: 1
   hasDamage: 0
-  lifeTime: 5
+  lifeTime: 3
 --- !u!1 &5180794448459414117
 GameObject:
   m_ObjectHideFlags: 0

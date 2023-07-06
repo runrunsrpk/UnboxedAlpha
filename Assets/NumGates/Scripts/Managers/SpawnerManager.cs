@@ -31,11 +31,9 @@ namespace NumGates
         [Header("Spawning Conditions")]
         [SerializeField] private int minSpawning;
         [SerializeField] private int maxSpawning;
-        [SerializeField] private int spawningLevel;         // Condition to upgrade spawner
         [SerializeField] private float baseSpawningSpeed;
-        [SerializeField] private float bonusSpawningSpeed;
+        [SerializeField] private float baseBonusSpawningSpeed;
         [SerializeField] private float spawningSpeed;       // Speed between each wave of spawning
-        [SerializeField] private float spawningDelaySpeed;  // Speed between each spawning
 
         private const float TIMER_MULTIPLIER = 10f; // covert millisec to second
 
@@ -57,6 +55,14 @@ namespace NumGates
         private int maxLayer = 900;
         private int layer = 0;
 
+        // Level
+        [Header("Level")]
+        [SerializeField] private LevelData[] levelDatas;
+        [SerializeField] private int levelDivider;
+
+        private int waveAmount;
+        private int lastedLevel;
+
         public void Initialize()
         {
             InitManager();
@@ -72,8 +78,13 @@ namespace NumGates
         {
             parent = new GameObject("SpawnerParent");
 
+            SetLevelData(levelDatas[0]);
+
             spawningSpeed = baseSpawningSpeed * TIMER_MULTIPLIER;
             waveTimer = baseSpawningSpeed * TIMER_MULTIPLIER;
+
+            waveAmount = 0;
+            lastedLevel = 0;
         }
 
         private void InitManager()
@@ -116,7 +127,6 @@ namespace NumGates
             }
             else
             {
-                //RandomSpawning();
                 StartCoroutine(Spawning());
                 waveTimer = spawningSpeed;
             }
@@ -193,12 +203,18 @@ namespace NumGates
         #region Action Timer
         private void StartBonusTimer()
         {
-            spawningSpeed = bonusSpawningSpeed * TIMER_MULTIPLIER;
+            spawningSpeed = baseBonusSpawningSpeed * TIMER_MULTIPLIER;
+
+            minSpawning = 1;
+            maxSpawning = 1;
         }
 
         private void EndBonusTimer()
         {
             spawningSpeed = baseSpawningSpeed * TIMER_MULTIPLIER;
+
+            minSpawning = levelDatas[lastedLevel].minSpawningAmount;
+            maxSpawning = levelDatas[lastedLevel].maxSpawningAmount;
         }
         #endregion
 
@@ -217,7 +233,7 @@ namespace NumGates
 
         private IEnumerator Spawning()
         {
-            int spawningAmount = UnityEngine.Random.Range(minSpawning, maxSpawning);
+            int spawningAmount = UnityEngine.Random.Range(minSpawning, maxSpawning + 1);
             float spawningDelay = ( (spawningSpeed / TIMER_MULTIPLIER) / 2f ) / spawningAmount;
 
             for (int i = 0; i < spawningAmount; i++)
@@ -234,6 +250,12 @@ namespace NumGates
                 }
 
                 yield return new WaitForSecondsRealtime(spawningDelay);
+            }
+
+            if(!gameplayManager.IsBonus)
+            {
+                waveAmount++;
+                UpdateLevel(waveAmount);
             }
         }
 
@@ -313,7 +335,7 @@ namespace NumGates
         }
         #endregion
 
-        #region 
+        #region Position
         private float GetReverseValue(float value)
         {
             return -value;
@@ -323,6 +345,29 @@ namespace NumGates
         {
             layer = (layer + 2 < maxLayer) ? layer + 2 : maxLayer ;
             return layer;
+        }
+        #endregion
+
+        #region Level
+        private void SetLevelData(LevelData data)
+        {
+            baseSpawningSpeed = data.spawningSpeed;
+            baseBonusSpawningSpeed = data.bonusSpawningSpeed;
+            minSpawning = data.minSpawningAmount;
+            maxSpawning = data.maxSpawningAmount;
+        }
+
+        private void UpdateLevel(int waveAmount)
+        {
+            if (lastedLevel == levelDatas.Length - 1) return;
+            
+            if (waveAmount / levelDivider > lastedLevel)
+            {
+                lastedLevel = waveAmount / levelDivider;
+                SetLevelData(levelDatas[lastedLevel]);
+
+                spawningSpeed = baseSpawningSpeed * TIMER_MULTIPLIER;
+            }
         }
         #endregion
     }
