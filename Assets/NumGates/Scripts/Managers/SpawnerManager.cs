@@ -204,27 +204,17 @@ namespace NumGates
             return UnityEngine.Random.Range(0f, 1f);
         }
 
-        //private void RandomSpawning()
-        //{
-            //int itemId = UnityEngine.Random.Range(0, spawnPrefs.Length);
-            ////int itemId = (int)SpawnType.Crypto;
-
-            //Collectable spawnedItem = Instantiate(spawnPrefs[itemId], parent.transform).GetComponent<Collectable>();
-            //RandomSpawnPosition(spawnedItem.gameObject);
-            //InitSpawnedValue(itemId, spawnedItem);
-        //}
-
-        private void SpawnItem(SpawnType type)
+        private void SpawnCollectable(SpawnType type)
         {
-            Collectable spawnedItem = Instantiate(spawnPrefs[(int)type], parent.transform).GetComponent<Collectable>();
-            RandomSpawnPosition(spawnedItem.gameObject);
-            InitSpawnedValue(type, spawnedItem);
+            Collectable collectable = Instantiate(spawnPrefs[(int)type], parent.transform).GetComponent<Collectable>();
+            RandomSpawnPosition(collectable.gameObject);
+            InitSpawnedValue(type, collectable);
         }
 
         private IEnumerator Spawning()
         {
             int spawningAmount = UnityEngine.Random.Range(minSpawning, maxSpawning);
-            float spawningDelay = ( spawningSpeed / 2 ) / spawningAmount;
+            float spawningDelay = ( (spawningSpeed / TIMER_MULTIPLIER) / 2f ) / spawningAmount;
 
             for (int i = 0; i < spawningAmount; i++)
             {
@@ -274,48 +264,48 @@ namespace NumGates
         private void SpawnSoul()
         {
             float randomValue = RandomPercentValue();
+            SpawnCollectable(GetSoulType(randomValue));
+        }
 
-            if(!gameplayManager.IsBonus)
+        private SpawnType GetSoulType(float value)
+        {
+            SpawnType type = SpawnType.PureSoul;
+
+            if (!gameplayManager.IsBonus)
             {
-                if (randomValue <= spawningMadSoulRate)
+                if(value <= spawningMadSoulRate + spawningColorSoulRate)
                 {
-                    SpawnItem(SpawnType.MadSoul);
-                }
-                else if (randomValue > spawningMadSoulRate && randomValue <= spawningMadSoulRate + spawningColorSoulRate)
-                {
-                    SpawnItem(SpawnType.ColorSoul);
-                }
-                else
-                {
-                    SpawnItem(SpawnType.PureSoul);
+                    type = (value <= spawningMadSoulRate) ? SpawnType.MadSoul : SpawnType.ColorSoul;
                 }
             }
             else
             {
-                if(randomValue <= spawningColorSoulRate)
-                {
-                    SpawnItem(SpawnType.ColorSoul);
-                }
-                else
-                {
-                    SpawnItem(SpawnType.PureSoul);
-                }
+                type = (value <= spawningMadSoulRate + spawningColorSoulRate) 
+                    ? SpawnType.ColorSoul : SpawnType.PureSoul;
             }
+
+            return type;
         }
 
         private void SpawnItem()
         {
-            float randomValue = RandomPercentValue();
-            float sectionValue = 1f / itemAmount;
+            int maxRandom = (!gameplayManager.IsBonus) ? itemAmount : itemAmount - 1;
+            int randomValue = UnityEngine.Random.Range(0, maxRandom);
+            SpawnCollectable(GetItemType(randomValue));
+        }
 
-            if(!gameplayManager.IsBonus)
+        private SpawnType GetItemType(int value)
+        {
+            SpawnType type = value switch
             {
-                // Spawn 4 items
-            }
-            else
-            {
-                // Spawn 3 items
-            }
+                0 => SpawnType.Crypto,
+                1 => SpawnType.Clock,
+                2 => SpawnType.Shield,
+                3 => SpawnType.Symbol,
+                _ => SpawnType.Crypto
+            };
+
+            return type;
         }
         #endregion
     }

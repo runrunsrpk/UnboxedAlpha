@@ -481,7 +481,7 @@ MonoBehaviour:
   - {fileID: 2430662435130964691, guid: d63cd4c4db92940c7a88999d9c25c799, type: 3}
   waveTimer: 0
   minSpawning: 1
-  maxSpawning: 1
+  maxSpawning: 2
   spawningLevel: 0
   baseSpawningSpeed: 1
   bonusSpawningSpeed: 0.5
